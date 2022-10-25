@@ -34,19 +34,20 @@ SIGNED_UBOOT_MAX_SIZE = "393216"
 SPL_MAX_SIZE = "86016"
 
 #
+# Default offset (in KB) of FIT (kernel, rootfs and dtb) in flash image.
+#
+FLASH_FIT_OFFSET_KB ?= "${FLASH_KERNEL_OFFSET}"
+
+UBOOT_SOURCE ?= "${DEPLOY_DIR_IMAGE}/u-boot.${UBOOT_SUFFIX}"
+FIT_SOURCE ?= "${STAGING_DIR_HOST}/etc/fit-${MACHINE}.its"
+
+#
 # Default maximum u-boot partition size: 380KB, and u-boot checksum is
 # stored at offset 380KB in the flash image.
 #
 UBOOT_PART_MAX_BYTES ?= "1835008"
-UBOOT_CKSUM_OFFSET_KB ?= "380"
+UBOOT_CKSUM_OFFSET_KB ?= "$(stat -L -c%s ${UBOOT_SOURCE})"
 
-#
-# Default offset (in KB) of FIT (kernel, rootfs and dtb) in flash image.
-#
-FLASH_FIT_OFFSET_KB = "${FLASH_KERNEL_OFFSET}"
-
-UBOOT_SOURCE ?= "${DEPLOY_DIR_IMAGE}/u-boot.${UBOOT_SUFFIX}"
-FIT_SOURCE ?= "${STAGING_DIR_HOST}/etc/fit-${MACHINE}.its"
 
 FIT[vardepsexclude] = "DATETIME"
 FIT ?= "fit-${MACHINE}-${DATETIME}.itb"
@@ -146,8 +147,8 @@ flash_image_generate() {
     fi
 
     # Generate MD5sums and store in image.
-    echo "{\"$(dd if=${FLASH_IMAGE_DESTINATION} bs=1k count=${UBOOT_CKSUM_OFFSET_KB} 2> /dev/null | md5sum | awk '{print $1}')\": \"Built: $(date)\"}" > ./tmp.md5
-    dd if=./tmp.md5 of=${FLASH_IMAGE_DESTINATION} bs=1k count=4 seek=${UBOOT_CKSUM_OFFSET_KB} conv=notrunc
+    echo "{\"$(dd if=${FLASH_IMAGE_DESTINATION} bs=1 count=4 seek=${UBOOT_CKSUM_OFFSET_KB} 2> /dev/null | md5sum | awk '{print $1}')\": \"Built: $(date)\"}" > ./tmp.md5
+    dd if=./tmp.md5 of=${FLASH_IMAGE_DESTINATION} bs=1 count=4 seek=${UBOOT_CKSUM_OFFSET_KB} conv=notrunc
     rm -f ./tmp.md5
 
     ln -sf ${FLASH_IMAGE} ${DEPLOY_DIR_IMAGE}/${FLASH_IMAGE_LINK}
