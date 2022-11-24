@@ -189,7 +189,7 @@ int ncsi_brcm_check_get_debug_data(NCSI_NL_RSP_T *nl_resp, int debug_data_type,
 
     /* First response must contain debug data length word */
     if (data_len < sizeof(uint32_t)) {
-      ncsi_log(LOG_ERR, "Error: GetDebugData Start response data too short (%u)"
+      ncsi_log(LOG_ERR, "Error: GetDebugData Start response data too short (%lu)"
                ,  data_len);
       return -1;
     }
@@ -211,7 +211,7 @@ int ncsi_brcm_check_get_debug_data(NCSI_NL_RSP_T *nl_resp, int debug_data_type,
   if (gdd_resp->op & NCSI_BRCM_GET_DEBUG_DATA_RESP_OP_END) {
     /* Last response must have CRC32 checksum word */
     if (data_len < sizeof(uint32_t)) {
-      ncsi_log(LOG_ERR, "Error: GetDebugData End response data too short (%u)",
+      ncsi_log(LOG_ERR, "Error: GetDebugData End response data too short (%lu)",
                data_len);
       return -1;
     }

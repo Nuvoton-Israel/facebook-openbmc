@@ -93,7 +93,7 @@ static int aen_cb(struct nl_msg *msg, void *arg)
 
 	data_len = (size_t)rc;
 	if (data_len > sizeof(dst_buf->msg_payload) - sizeof(struct eth_hdr)) {
-		syslog(LOG_ERR, "data_len (%d) exceeds max buffer size (%d)\n",
+		syslog(LOG_ERR, "data_len (%zd) exceeds max buffer size (%zd)\n",
 		       data_len,
 		       sizeof(dst_buf->msg_payload) - sizeof(struct eth_hdr));
 	} else {
@@ -259,7 +259,7 @@ static int send_cb(struct nl_msg *msg, void *arg)
 
 	data_len = (size_t)rc;
 	if (data_len < sizeof(CTRL_MSG_HDR_t)) {
-		syslog(LOG_ERR, "short ncsi data, %u\n", data_len);
+		syslog(LOG_ERR, "short ncsi data, %zu\n", data_len);
 		errno = ERANGE;
 		return -1;
 	}
@@ -406,7 +406,7 @@ NCSI_NL_RSP_T * send_nl_msg_libnl(NCSI_NL_MSG_T *nl_msg)
 
   ret_buf = calloc(1, sizeof(NCSI_NL_RSP_T));
   if (!ret_buf) {
-    syslog(LOG_ERR, "Failed to allocate rspbuf %d  %s\n", sizeof(NCSI_NL_RSP_T), strerror(errno));
+    syslog(LOG_ERR, "Failed to allocate rspbuf %zd  %s\n", sizeof(NCSI_NL_RSP_T), strerror(errno));
     return NULL;
   }
 

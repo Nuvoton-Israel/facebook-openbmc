@@ -221,7 +221,7 @@ void
 *clear_bios_data_timer(void *ptr)
 {
   int timer = 0;
-  int slot_id = (int)ptr;
+  int slot_id = *(int*)ptr;
   int oldstate;
   unsigned char boot[SIZE_BOOT_ORDER]={0};
   unsigned char res_len;
@@ -2578,7 +2578,7 @@ oem_set_boot_order(unsigned char *request, unsigned char req_len,
 
   if (req->data[0] & (BIOS_BOOT_VALID_FLAG | CMOS_VALID_FLAG | FORCE_BOOT_BIOS_SETUP_VALID_FLAG)) {
     /*Create timer thread*/
-    ret = pthread_create(&bios_timer_tid[req->payload_id - 1], NULL, clear_bios_data_timer, (void *)slot_id);
+    ret = pthread_create(&bios_timer_tid[req->payload_id - 1], NULL, clear_bios_data_timer, (void *)&slot_id);
     if (ret < 0) {
       syslog(LOG_WARNING, "[%s] Create BIOS timer thread failed!\n", __func__);
 
@@ -3498,7 +3498,7 @@ oem_stor_add_string_sel(unsigned char *request, unsigned char req_len,
 
   if (string_log_len >= sizeof(string_log)){
     res->cc = CC_INVALID_LENGTH;
-    syslog(LOG_ERR, "%s(): max supported string length is %d, but got %d",
+    syslog(LOG_ERR, "%s(): max supported string length is %zd, but got %d",
                        __func__, sizeof(string_log)-1, string_log_len);
     return;
   }

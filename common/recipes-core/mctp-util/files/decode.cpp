@@ -92,7 +92,7 @@ static int parse_ncsi(uint8_t *rbuf, int rlen)
   NCSI_Response_Packet *pResp = NULL;
 
   if (rlen < (int) MIN_NCSI_RESP_SIZE || rbuf == NULL) {
-    printf("Invalid NC-SI response length (%d) (min(%d))\n", rlen, MIN_NCSI_RESP_SIZE);
+    printf("Invalid NC-SI response length (%d) (min(%zd))\n", rlen, MIN_NCSI_RESP_SIZE);
     return -1;
   }
 

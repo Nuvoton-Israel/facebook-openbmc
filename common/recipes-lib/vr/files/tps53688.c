@@ -257,7 +257,7 @@ program_tps(uint8_t fru_id, uint8_t bus, uint8_t addr, struct tps_config *config
   }
 
   if (memcmp(&config->devid_exp, &devid, VR_TPS_DEVID_LEN)) {
-    syslog(LOG_WARNING, "%s: IC_DEVICE_ID %llx mismatch, expect %llx", __func__, devid, config->devid_exp);
+    syslog(LOG_WARNING, "%s: IC_DEVICE_ID %zx mismatch, expect %zx", __func__, devid, config->devid_exp);
     return -1;
   }
 

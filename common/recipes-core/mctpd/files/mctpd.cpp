@@ -198,7 +198,7 @@ static void rx_message(uint8_t eid, void *data, void *msg, size_t len, bool tag_
   }
 
   if (verbose) {
-    fprintf(stderr, "MCTP message received: len %u, tag %d dest eid=%d\n", len, tag, eid);
+    fprintf(stderr, "MCTP message received: len %zu, tag %d dest eid=%d\n", len, tag, eid);
 
     for (i = 0; i < (int)len; i++) {
       fprintf(stderr, "%s msg[%d] =%x\n", __func__, i , *((char*)msg + i));
