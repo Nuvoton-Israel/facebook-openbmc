@@ -1,0 +1,46 @@
+From 5c01d2a9ab095235b753531943dba3d4acd90213 Mon Sep 17 00:00:00 2001
+From: Joseph Liu <kwliu@nuvoton.com>
+Date: Thu, 24 Nov 2022 11:50:03 +0800
+Subject: [PATCH] dts: nuvoton-npcm845 5.15: remove video
+
+Signed-off-by: Joseph Liu <kwliu@nuvoton.com>
+---
+ .../boot/dts/nuvoton/nuvoton-npcm845-evb.dts   | 18 ------------------
+ 1 file changed, 18 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts b/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts
+index d94f1c6984a8..fece4456a32f 100644
+--- a/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts
++++ b/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts
+@@ -73,19 +73,6 @@ iio-hwmon {
+ 			<&adc 4>, <&adc 5>, <&adc 6>, <&adc 7>;
+ 	};
+ 
+-	reserved-memory {
+-		#address-cells = <2>;
+-		#size-cells = <2>;
+-		ranges;
+-
+-		video_memory: framebuffer@0x33000000 {
+-			compatible = "shared-dma-pool";
+-			reg = <0x0 0x33000000 0x0 0x01800000>;
+-			reusable;
+-			linux,cma-default;
+-		};
+-	};
+-
+ 	spi_gpio: spi-gpio {
+ 		compatible = "spi-gpio";
+ 		#address-cells = <1>;
+@@ -595,8 +582,3 @@ &pin241_slew
+ 			&pin242_slew
+ 			&pin243_slew>;
+ };
+-
+-&video {
+-	status = "okay";
+-	memory-region = <&video_memory>;
+-};
+-- 
+2.34.1
+

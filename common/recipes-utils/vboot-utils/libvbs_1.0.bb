@@ -19,7 +19,7 @@ def get_vbs_base_addr(soc_family):
   elif soc_family == "aspeed-g6":
     ret += "0x10015800"
   else:
-    ret = ""
+    ret += "0x00000000"
 
   return ret
 

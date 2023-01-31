@@ -96,6 +96,9 @@ extern "C" int sensors_read_fan(const char *label, float *value)
   if (sensors.find("aspeed_tach-isa-0000") != sensors.end()) {
     return sensors_read_locked("aspeed_tach-isa-0000", label, value);
   }
+  if (sensors.find("npcm8xx_pwm_fan-isa-0000") != sensors.end()) {
+    return sensors_read_locked("npcm8xx_pwm_fan-isa-0000", label, value);
+  }
   return sensors_read_locked("ast_pwm-isa-0000", label, value);
 }
 
