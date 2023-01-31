@@ -981,21 +981,21 @@ PAL_PMBUS_INFO dpv2_efuse_info_list[] = {
   [DPV2_EFUSE_PIN]  = {0x97, 0.895 * DPV2_EFUSE_RLOAD, -9100, -2},
 };
 
-//{SensorName, ID, FUNCTION, PWR_STATUS, {UCR, UNC, UNR, LCR, LNR, LNC, Pos, Neg}
+//{SensorName, ID, FUNCTION, PWR_STATUS, {UCR, UNC, UNR, LCR, LNR, LNC, Pos, Neg}, Unit}
 PAL_SENSOR_MAP sensor_map[] = {
-  {"BMC_TMP100_TEMP_C" , TEMP_TMP100, read_temp, 0, { 0, 0, 0, 0, 0, 0, 0, 0}, TEMP}, //0x00
-  {"BMC_ADC0_VOLT_V", ADC0, read_adc_val, 0, { 0, 0, 0, 0, 0, 0, 0, 0}, VOLT}, //0x01
-  {"BMC_ADC1_VOLT_V", ADC1, read_adc_val, 0, { 0, 0, 0, 0, 0, 0, 0, 0}, VOLT}, //0x02
-  {"BMC_ADC2_VOLT_V", ADC2, read_adc_val, 0, { 0, 0, 0, 0, 0, 0, 0, 0}, VOLT}, //0x03
-  {"BMC_ADC3_VOLT_V", ADC3, read_adc_val, 0, { 0, 0, 0, 0, 0, 0, 0, 0}, VOLT}, //0x04
-  {"BMC_ADC4_VOLT_V", ADC4, read_adc_val, 0, { 0, 0, 0, 0, 0, 0, 0, 0}, VOLT}, //0x05
-  {"BMC_ADC5_VOLT_V", ADC5, read_adc_val, 0, { 0, 0, 0, 0, 0, 0, 0, 0}, VOLT}, //0x06
-  {"BMC_ADC6_VOLT_V", ADC6, read_adc_val, 0, { 0, 0, 0, 0, 0, 0, 0, 0}, VOLT}, //0x07
-  {"BMC_ADC7_VOLT_V", ADC7, read_adc_val, 0, { 0, 0, 0, 0, 0, 0, 0, 0}, VOLT}, //0x08
-  {"BMC_FAN0_TACH_RPM", 0x09, read_fan_speed , 0, { 0, 0, 0, 0, 0, 0, 0, 0}, FAN}, //0x09
-  {"BMC_FAN1_TACH_RPM", 0x0A, read_fan_speed , 0, { 0, 0, 0, 0, 0, 0, 0, 0}, FAN}, //0x0A
-  {"BMC_FAN2_TACH_RPM", 0x0B, read_fan_speed , 0, { 0, 0, 0, 0, 0, 0, 0, 0}, FAN}, //0x0B
-  {"BMC_FAN3_TACH_RPM", 0x0C, read_fan_speed , 0, { 0, 0, 0, 0, 0, 0, 0, 0}, FAN}, //0x0C
+  {"BMC_TMP100_TEMP_C" , TEMP_TMP100, read_temp, 0, { 0, 0, 15, 50, 65, 0, 0, 0}, TEMP}, //0x00
+  {"BMC_ADC0_VOLT_V", ADC0, read_adc_val, 0, { 0, 1.000, 1.100, 1.300, 1.500, 0, 0, 0}, VOLT}, //0x01
+  {"BMC_ADC1_VOLT_V", ADC1, read_adc_val, 0, { 0, 1.000, 1.100, 1.300, 1.500, 0, 0, 0}, VOLT}, //0x02
+  {"BMC_ADC2_VOLT_V", ADC2, read_adc_val, 0, { 0, 1.000, 1.100, 1.300, 1.500, 0, 0, 0}, VOLT}, //0x03
+  {"BMC_ADC3_VOLT_V", ADC3, read_adc_val, 0, { 0, 1.000, 1.100, 1.300, 1.500, 0, 0, 0}, VOLT}, //0x04
+  {"BMC_ADC4_VOLT_V", ADC4, read_adc_val, 0, { 0, 1.000, 1.100, 1.300, 1.500, 0, 0, 0}, VOLT}, //0x05
+  {"BMC_ADC5_VOLT_V", ADC5, read_adc_val, 0, { 0, 1.000, 1.100, 1.300, 1.500, 0, 0, 0}, VOLT}, //0x06
+  {"BMC_ADC6_VOLT_V", ADC6, read_adc_val, 0, { 0, 0.800, 0.900, 1.300, 1.500, 0, 0, 0}, VOLT}, //0x07
+  {"BMC_ADC7_VOLT_V", ADC7, read_adc_val, 0, { 0, 1.000, 1.100, 1.300, 1.500, 0, 0, 0}, VOLT}, //0x08
+  {"BMC_FAN0_TACH_RPM", 0x09, read_fan_speed , 0, { 0, 500, 0, 8500, 11500, 0, 0, 0}, FAN}, //0x09
+  {"BMC_FAN1_TACH_RPM", 0x0A, read_fan_speed , 0, { 0, 500, 0, 8500, 11500, 0, 0, 0}, FAN}, //0x0A
+  {"BMC_FAN2_TACH_RPM", 0x0B, read_fan_speed , 0, { 0, 500, 0, 8500, 11500, 0, 0, 0}, FAN}, //0x0B
+  {"BMC_FAN3_TACH_RPM", 0x0C, read_fan_speed , 0, { 0, 500, 0, 8500, 11500, 0, 0, 0}, FAN}, //0x0C
   {NULL, 0, NULL, 0, {0, 0, 0, 0, 0, 0, 0, 0}, 0}, //0x0D
   {NULL, 0, NULL, 0, {0, 0, 0, 0, 0, 0, 0, 0}, 0}, //0x0E
   {NULL, 0, NULL, 0, {0, 0, 0, 0, 0, 0, 0, 0}, 0}, //0x0F
@@ -3071,154 +3071,9 @@ pal_get_sensor_name(uint8_t fru, uint8_t sensor_num, char *name) {
   return 0;
 }
 
-static int
-pal_bmc_fan_threshold_init() {
-  uint8_t fan_type = UNKNOWN_TYPE;
-  uint8_t bmc_location = 0;
-
-  if (evb_npcm845_common_get_bmc_location(&bmc_location) < 0) {
-    syslog(LOG_ERR, "%s() Cannot get the location of BMC", __func__);
-    return -1;
-  } else if (pal_get_fan_type(&bmc_location, &fan_type) != PAL_EOK) {
-    syslog(LOG_ERR, "%s() Cannot get the type of fan, fvaule=%d", __func__, fan_type);
-    return -1;
-  } else {
-
-    if ( rev_id == UNKNOWN_REV ) {
-      if ( get_board_rev(FRU_BMC, BOARD_ID_BB, &rev_id) < 0 ) {
-        syslog(LOG_WARNING, "%s() Failed to get revision id", __func__);
-        return -1;
-      }
-    }
-
-    if (rev_id >= BB_REV_DVT && fan_type == SINGLE_TYPE) {
-        /*
-          BMC_SENSOR_FAN0_TACH,
-          BMC_SENSOR_FAN1_TACH,
-          BMC_SENSOR_FAN2_TACH,
-          BMC_SENSOR_FAN3_TACH,
-          sensor threshold change for 15k fan
-        */
-        for (int fan_num = BMC_SENSOR_FAN0_TACH; fan_num <= BMC_SENSOR_FAN3_TACH; fan_num++) {
-          sensor_map[fan_num].snr_thresh.lcr_thresh = FAN_15K_LCR;
-          sensor_map[fan_num].snr_thresh.unc_thresh = FAN_15K_UNC;
-          sensor_map[fan_num].snr_thresh.ucr_thresh = FAN_15K_UCR;
-        }
-    }
-
-    if (fan_type != SINGLE_TYPE) {
-      // set fan tach UCR to 13800 if it's not single type
-      sensor_map[BMC_SENSOR_FAN0_TACH].snr_thresh.ucr_thresh = DUAL_FAN_UCR;
-      sensor_map[BMC_SENSOR_FAN1_TACH].snr_thresh.ucr_thresh = DUAL_FAN_UCR;
-      sensor_map[BMC_SENSOR_FAN2_TACH].snr_thresh.ucr_thresh = DUAL_FAN_UCR;
-      sensor_map[BMC_SENSOR_FAN3_TACH].snr_thresh.ucr_thresh = DUAL_FAN_UCR;
-
-      sensor_map[BMC_SENSOR_FAN0_TACH].snr_thresh.unc_thresh = DUAL_FAN_UNC;
-      sensor_map[BMC_SENSOR_FAN1_TACH].snr_thresh.unc_thresh = DUAL_FAN_UNC;
-      sensor_map[BMC_SENSOR_FAN2_TACH].snr_thresh.unc_thresh = DUAL_FAN_UNC;
-      sensor_map[BMC_SENSOR_FAN3_TACH].snr_thresh.unc_thresh = DUAL_FAN_UNC;
-
-    }
-#ifdef DEBUG
-    syslog(LOG_INFO, "%s() fan tach threshold initialized, fan_type: %u", __func__, fan_type);
-#endif
-  }
-  return 0;
-}
-
-static int
-pal_medusa_hsc_threshold_init() {
-  static bool is_inited = false;
-  bool is_48v_medusa = false;
-  char hsc_type[MAX_VALUE_LEN] = {0};
-  int i = 0, index = 0;
-  struct {
-    uint8_t sensor_num;
-    PAL_SENSOR_THRESHOLD thres;
-  } medusa_sensor[] = {
-    //           sensor_num, ( LNR,   LCR,  LNC,  UNC,  UCR, UNR)
-    {BMC_SENSOR_MEDUSA_VIN,  {41.1, 42.72, 43.2, 56.1, 56.61, 0}},
-    {BMC_SENSOR_MEDUSA_VOUT, {41.1, 42.72, 43.2, 56.1, 56.61, 0}},
-    {BMC_SENSOR_MEDUSA_CURR, {   0,     0,    0,   62,     0, 0}},
-  };
-  uint8_t bmc_location = 0;
-
-  if (evb_npcm845_common_get_bmc_location(&bmc_location) < 0) {
-    syslog(LOG_ERR, "%s() Cannot get the location of BMC", __func__);
-  } else {
-    // Since NICEXP does not have medusa HSC sensor.
-    // Config D system don't need to initialize medusa HSC.
-    if (bmc_location == NIC_BMC) {
-      return 0;
-    }
-  }
-  if (is_inited == true) {
-    return 0;
-  }
-  if (kv_get("bb_hsc_conf", hsc_type, NULL, KV_FPERSIST) < 0) {
-    return -1;
-  } else {
-    // 12V medusa: LTC4282
-    // 48V medusa: ADM1272, LTC4287
-    is_48v_medusa = strncmp(hsc_type, "ltc4282", sizeof(hsc_type)) ? true : false;
-  }
-  if (is_48v_medusa == true) {
-    for(i = 0; i < sizeof(medusa_sensor) / sizeof(medusa_sensor[1]); i++) {
-      index = medusa_sensor[i].sensor_num;
-      memcpy(&sensor_map[index].snr_thresh, &medusa_sensor[i].thres, sizeof(PAL_SENSOR_THRESHOLD));
-    }
-  }
-  is_inited = true;
-  return 0;
-}
-
-static int
-pal_vpdb_threshold_init() {
-  static bool is_inited = false;
-  bool is_48v_medusa = false;
-  char hsc_type[MAX_VALUE_LEN] = {0};
-
-  if (is_inited == true) {
-    return 0;
-  }
-  if (kv_get("bb_hsc_conf", hsc_type, NULL, KV_FPERSIST) < 0) {
-    return -1;
-  } else {
-    // 12V medusa: LTC4282
-    // 48V medusa: ADM1272, LTC4287
-    is_48v_medusa = strncmp(hsc_type, "ltc4282", sizeof(hsc_type)) ? true : false;
-  }
-  if (is_48v_medusa == true) {
-    sensor_map[BMC_SENSOR_PDB_CL_VDELTA].snr_thresh.ucr_thresh = BB_CPU_VDELTA_48V_UCR;
-    sensor_map[BMC_SENSOR_PDB_BB_VDELTA].snr_thresh.ucr_thresh = BB_CPU_VDELTA_48V_UCR;
-  }
-  is_inited = true;
-  return 0;
-}
-
 int
 pal_get_sensor_threshold(uint8_t fru, uint8_t sensor_num, uint8_t thresh, void *value) {
-  static bool is_fan_threshold_init = false;
   float *val = (float*) value;
-
-  if (fru == FRU_BMC && is_fan_threshold_init == false) {
-    if (pal_bmc_fan_threshold_init() < 0) {
-      return -1;
-    } else {
-      is_fan_threshold_init = true;
-    }
-  }
-  if (fru == FRU_BMC) {
-    if ((pal_medusa_hsc_threshold_init() < 0) || (pal_vpdb_threshold_init() < 0)) {
-      return -1;
-    }
-  }
-  if ( rev_id == UNKNOWN_REV ) {
-    if ( get_board_rev(FRU_BMC, BOARD_ID_BB, &rev_id) < 0 ) {
-      syslog(LOG_WARNING, "%s() Failed to get board revision", __func__);
-      return -1;
-    }
-  }
 
   switch (fru) {
     case FRU_BMC:

@@ -11,4 +11,5 @@ IMAGE_INSTALL += " \
   packagegroup-openbmc-rest3 \
   ipmid \
   ipmitool \
+  sensor-mon \
   "

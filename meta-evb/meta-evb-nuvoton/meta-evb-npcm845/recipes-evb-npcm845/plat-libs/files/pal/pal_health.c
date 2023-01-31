@@ -18,10 +18,7 @@ pal_get_fru_health(uint8_t fru, uint8_t *value) {
   int ret = ERR_NOT_READY;
 
   switch(fru) {
-    case FRU_SLOT1:
-    case FRU_SLOT2:
-    case FRU_SLOT3:
-    case FRU_SLOT4:
+    case FRU_BMC:
       /*it's supported*/
       break;
     default:
@@ -55,10 +52,7 @@ pal_set_sensor_health(uint8_t fru, uint8_t value) {
   char key[MAX_KEY_LEN] = {0};
 
   switch(fru) {
-    case FRU_SLOT1:
-    case FRU_SLOT2:
-    case FRU_SLOT3:
-    case FRU_SLOT4:
+    case FRU_BMC:
       /*it's supported*/
       break;
     default:

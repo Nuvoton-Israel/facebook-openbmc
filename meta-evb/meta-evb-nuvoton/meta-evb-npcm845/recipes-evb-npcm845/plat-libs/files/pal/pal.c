@@ -195,10 +195,12 @@ struct pal_key_cfg {
   {"slot2_sensor_health", "1", NULL},
   {"slot3_sensor_health", "1", NULL},
   {"slot4_sensor_health", "1", NULL},
+  {"slot7_sensor_health", "1", NULL},
   {"slot1_sel_error", "1", NULL},
   {"slot2_sel_error", "1", NULL},
   {"slot3_sel_error", "1", NULL},
   {"slot4_sel_error", "1", NULL},
+  {"slot7_sel_error", "1", NULL},
   {"ntp_server", "", NULL},
   {"slot1_enable_pxe_sel", "0", NULL},
   {"slot2_enable_pxe_sel", "0", NULL},
@@ -1301,13 +1303,6 @@ pal_get_fruid_name(uint8_t fru, char *name) {
 int
 pal_get_fru_name(uint8_t fru, char *name) {
   int ret = 0;
-  uint8_t bmc_location = 0;
-
-  ret = evb_npcm845_common_get_bmc_location(&bmc_location);
-  if ( ret < 0 ) {
-    syslog(LOG_WARNING, "%s() Cannot get the location of BMC", __func__);
-    return ret;
-  }
 
   switch(fru) {
     case FRU_ALL:
