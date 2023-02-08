@@ -3,7 +3,7 @@
 #
 # Copyright (C) 2016-Present, Facebook, Inc.
 # Inherit u-boot classes if legacy uboot images are in use.
-inherit image_types
+inherit image_types kernel-uboot
 inherit image_types_fbobmc_nuvoton_npcm8xx
 
 # Make Rocko images work just like they would in krogoth
@@ -177,7 +177,7 @@ oe_mkimage() {
       ln -sf ${UBOOT_FIT} ${DEPLOY_DIR_IMAGE}/${UBOOT_FIT_LINK}
     fi
 
-    KERNEL_FILE="${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}"
+    KERNEL_FILE="${DEPLOY_DIR_IMAGE}/linux.bin"
     RAMDISK_FILE="${DEPLOY_DIR_IMAGE}/$1"
     # Newer oe-core (>Krogoth) copies the image after this step.
     # Hence we need to use the path from ${IMGDEPLOYDIR}.
@@ -190,7 +190,7 @@ oe_mkimage() {
 
     # Step 1: Prepare a kernel image section
     fitimage_emit_section_maint ${FIT_SOURCE} imagestart
-    fitimage_emit_section_kernel ${FIT_SOURCE} 1 "${KERNEL_FILE}" "none" \
+    fitimage_emit_section_kernel ${FIT_SOURCE} 1 "${KERNEL_FILE}" "gzip" \
         ${UBOOT_LOADADDRESS} ${UBOOT_ENTRYPOINT}
 
     # Step 2: Prepare a ramdisk image section
@@ -224,3 +224,11 @@ oe_mkimage() {
     mkimage -E -B 8 -f ${FIT_SOURCE} ${FIT_DESTINATION}
     ln -sf ${FIT} ${DEPLOY_DIR_IMAGE}/${FIT_LINK}
 }
+
+do_kernel_compression() {
+    cd ${B}
+    uboot_prep_kimage
+    cp -af linux.bin ${DEPLOY_DIR_IMAGE}/
+}
+
+addtask kernel_compression before do_deploy after assemble_fitimage_initramfs
