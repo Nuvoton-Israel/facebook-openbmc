@@ -1,0 +1,28 @@
+From 201e31580a9703531af17fb165de649f538ae43d Mon Sep 17 00:00:00 2001
+From: Eason Yang <yhyang2@nuvoton.com>
+Date: Mon, 20 May 2024 13:08:47 +0800
+Subject: [PATCH 17/19] arm64: dts: npcm845-evb: Add spi-tx-bus-width property
+ from FIU1 node
+
+FIU1 could work well on dual mode
+
+Signed-off-by: Eason Yang <yhyang2@nuvoton.com>
+---
+ arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts b/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts
+index 8ba21a9c4134..3c033b890597 100644
+--- a/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts
++++ b/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts
+@@ -301,6 +301,7 @@ spi-nor@0 {
+ 		#address-cells = <1>;
+ 		#size-cells = <1>;
+ 		spi-rx-bus-width = <2>;
++		spi-tx-bus-width = <2>;
+ 		reg = <0>;
+ 		spi-max-frequency = <5000000>;
+ 		partitions@A0000000 {
+-- 
+2.34.1
+

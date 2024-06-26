@@ -1,0 +1,221 @@
+From b80cf6e15ba1e13bb7c817cc9e5291d61c5df18d Mon Sep 17 00:00:00 2001
+From: Stanley Chu <yschu@nuvoton.com>
+Date: Tue, 9 Apr 2024 15:51:51 +0800
+Subject: [PATCH 08/19] arm64: dts: npcm8xx: Add i3c nodes
+
+Signed-off-by: Stanley Chu <yschu@nuvoton.com>
+---
+ .../dts/nuvoton/nuvoton-common-npcm8xx.dtsi   | 147 +++++++++++++++++-
+ .../boot/dts/nuvoton/nuvoton-npcm845-evb.dts  |  18 ++-
+ 2 files changed, 159 insertions(+), 6 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi b/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi
+index 5aade79e0d92..72e6859e8b1d 100644
+--- a/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi
++++ b/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi
+@@ -242,7 +242,8 @@ apb {
+ 			compatible = "simple-bus";
+ 			interrupt-parent = <&gic>;
+ 			ranges = <0x0 0x0 0xf0000000 0x00300000>,
+-				<0xfff00000 0x0 0xfff00000 0x00016000>;
++				<0xfff00000 0x0 0xfff00000 0x00016000>,
++				<0xf0800000 0x0 0xf0800000 0x00060000>;
+ 
+ 			lpc_kcs: lpc_kcs@7000 {
+ 				compatible = "nuvoton,npcm845-lpc-kcs",
+@@ -457,6 +458,102 @@ &fanin12_pins &fanin13_pins
+ 				status = "disabled";
+ 			};
+ 
++			i3c0: i3c@fff10000 {
++				compatible = "silvaco,i3c-master";
++				reg = <0xfff10000 0x1000>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&i3c0_pins
++						&i3c0_scl_slew
++						&i3c0_sda_slew>;
++				clocks = <&clk NPCM8XX_CLK_AHB>, <&clk NPCM8XX_CLK_RCP>;
++				clock-names = "pclk", "fast_clk";
++				interrupts = <GIC_SPI 224 IRQ_TYPE_LEVEL_HIGH>;
++				resets = <&rstc 0x74 8>;
++				#address-cells = <3>;
++				#size-cells = <0>;
++				status = "disabled";
++			};
++
++			i3c1: i3c@fff11000 {
++				compatible = "silvaco,i3c-master";
++				reg = <0xfff11000 0x1000>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&i3c1_pins
++						&i3c1_scl_slew
++						&i3c1_sda_slew>;
++				clocks = <&clk NPCM8XX_CLK_AHB>, <&clk NPCM8XX_CLK_RCP>;
++				clock-names = "pclk", "fast_clk";
++				interrupts = <GIC_SPI 225 IRQ_TYPE_LEVEL_HIGH>;
++				resets = <&rstc 0x74 9>;
++				#address-cells = <3>;
++				#size-cells = <0>;
++				status = "disabled";
++			};
++
++			i3c2: i3c@fff12000 {
++				compatible = "silvaco,i3c-master";
++				reg = <0xfff12000 0x1000>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&i3c2_pins
++						&i3c2_scl_slew
++						&i3c2_sda_slew>;
++				clocks = <&clk NPCM8XX_CLK_AHB>, <&clk NPCM8XX_CLK_RCP>;
++				clock-names = "pclk", "fast_clk";
++				interrupts = <GIC_SPI 226 IRQ_TYPE_LEVEL_HIGH>;
++				resets = <&rstc 0x74 10>;
++				#address-cells = <3>;
++				#size-cells = <0>;
++				status = "disabled";
++			};
++
++			i3c3: i3c@fff13000 {
++				compatible = "silvaco,i3c-master";
++				reg = <0xfff13000 0x1000>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&i3c3_pins
++						&i3c3_scl_slew
++						&i3c3_sda_slew>;
++				clocks = <&clk NPCM8XX_CLK_AHB>, <&clk NPCM8XX_CLK_RCP>;
++				clock-names = "pclk", "fast_clk";
++				interrupts = <GIC_SPI 227 IRQ_TYPE_LEVEL_HIGH>;
++				resets = <&rstc 0x74 11>;
++				#address-cells = <3>;
++				#size-cells = <0>;
++				status = "disabled";
++			};
++
++			i3c4: i3c@fff14000 {
++				compatible = "silvaco,i3c-master";
++				reg = <0xfff14000 0x1000>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&i3c4_pins
++						&i3c4_scl_slew
++						&i3c4_sda_slew>;
++				clocks = <&clk NPCM8XX_CLK_AHB>, <&clk NPCM8XX_CLK_RCP>;
++				clock-names = "pclk", "fast_clk";
++				interrupts = <GIC_SPI 228 IRQ_TYPE_LEVEL_HIGH>;
++				resets = <&rstc 0x74 12>;
++				#address-cells = <3>;
++				#size-cells = <0>;
++				status = "disabled";
++			};
++
++			i3c5: i3c@fff15000 {
++				compatible = "silvaco,i3c-master";
++				reg = <0xfff15000 0x1000>;
++				pinctrl-names = "default";
++				pinctrl-0 = <&i3c5_pins
++						&i3c5_scl_slew
++						&i3c5_sda_slew>;
++				clocks = <&clk NPCM8XX_CLK_AHB>, <&clk NPCM8XX_CLK_RCP>;
++				clock-names = "pclk", "fast_clk";
++				interrupts = <GIC_SPI 229 IRQ_TYPE_LEVEL_HIGH>;
++				resets = <&rstc 0x74 13>;
++				#address-cells = <3>;
++				#size-cells = <0>;
++				status = "disabled";
++			};
++
+ 			i2c0: i2c@80000 {
+ 				reg = <0x80000 0x1000>;
+ 				compatible = "nuvoton,npcm845-i2c";
+@@ -1569,5 +1666,53 @@ gpo187_pins: gpo187-pins {
+ 			groups = "gpo187";
+ 			function = "gpo187";
+ 		};
++		i3c0_scl_slew: i3c0scl-slew {
++			pins = "GPIO240/I3C0_SCL";
++			slew-rate = <1>;
++		};
++		i3c0_sda_slew: i3c0sda-slew {
++			pins = "GPIO241/I3C0_SDA";
++			slew-rate = <1>;
++		};
++		i3c1_scl_slew: i3c1scl-slew {
++			pins = "GPIO242/I3C1_SCL";
++			slew-rate = <1>;
++		};
++		i3c1_sda_slew: i3c1sda-slew {
++			pins = "GPIO243/I3C1_SDA";
++			slew-rate = <1>;
++		};
++		i3c2_scl_slew: i3c2scl-slew {
++			pins = "GPIO244/I3C2_SCL";
++			slew-rate = <1>;
++		};
++		i3c2_sda_slew: i3c2sda-slew {
++			pins = "GPIO245/I3C2_SDA";
++			slew-rate = <1>;
++		};
++		i3c3_scl_slew: i3c3scl-slew {
++			pins = "GPIO246/I3C3_SCL";
++			slew-rate = <1>;
++		};
++		i3c3_sda_slew: i3c3sda-slew {
++			pins = "GPIO247/I3C3_SDA";
++			slew-rate = <1>;
++		};
++		i3c4_scl_slew: i3c4scl-slew {
++			pins = "GPIO33/I3C4_SCL";
++			slew-rate = <1>;
++		};
++		i3c4_sda_slew: i3c4sda-slew {
++			pins = "GPIO34/I3C4_SDA";
++			slew-rate = <1>;
++		};
++		i3c5_scl_slew: i3c5scl-slew {
++			pins = "GPIO106/I3C5_SCL";
++			slew-rate = <1>;
++		};
++		i3c5_sda_slew: i3c5sda-slew {
++			pins = "GPIO107/I3C5_SDA";
++			slew-rate = <1>;
++		};
+ 	};
+ };
+diff --git a/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts b/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts
+index 2c153c4da700..a04d72b142b5 100644
+--- a/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts
++++ b/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts
+@@ -533,6 +533,18 @@ &i2c26 {
+ 	status = "okay";
+ };*/
+ 
++&i3c0 {
++        status = "okay";
++        i3c-scl-hz = <12500000>;
++        i2c-scl-hz = <400000>;
++};
++
++&i3c1 {
++        status = "okay";
++        i3c-scl-hz = <12500000>;
++        i2c-scl-hz = <400000>;
++};
++
+ &pinctrl {
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <
+@@ -543,11 +555,7 @@ &gpio114ol_pins
+ 			&lpc_pins
+ 			&spix_pins
+ 			&pin108_slew
+-			&pin109_slew
+-			&pin240_slew
+-			&pin241_slew
+-			&pin242_slew
+-			&pin243_slew>;
++			&pin109_slew>;
+ };
+ 
+ &peci0 {
+-- 
+2.34.1
+

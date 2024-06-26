@@ -1,0 +1,36 @@
+From b5be73e1889b7e3be3e5a678937e3ad94439f7e2 Mon Sep 17 00:00:00 2001
+From: Tomer Maimon <tmaimon77@gmail.com>
+Date: Thu, 6 Jun 2024 00:57:20 +0300
+Subject: [PATCH 18/19] arm64: dts: add bu4b and bu5b pins support
+
+Signed-off-by: Tomer Maimon <tmaimon77@gmail.com>
+---
+ arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi b/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi
+index 578d47053dc5..72828d91b33a 100644
+--- a/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi
++++ b/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi
+@@ -1867,10 +1867,18 @@ bu4_pins: bu4-pins {
+ 			groups = "bu4";
+ 			function = "bu4";
+ 		};
++		bu4b_pins: bu4b-pins {
++			groups = "bu4b";
++			function = "bu4b";
++		};
+ 		bu5_pins: bu5-pins {
+ 			groups = "bu5";
+ 			function = "bu5";
+ 		};
++		bu5b_pins: bu5b-pins {
++			groups = "bu5b";
++			function = "bu5b";
++		};
+ 		bu6_pins: bu6-pins {
+ 			groups = "bu6";
+ 			function = "bu6";
+-- 
+2.34.1
+

@@ -1,0 +1,66 @@
+From 971969593ff595c4851c08b03a9d1114987738e4 Mon Sep 17 00:00:00 2001
+From: Eason Yang <yhyang2@nuvoton.com>
+Date: Wed, 15 May 2024 16:33:09 +0800
+Subject: [PATCH 16/19] arm64: dts: npcm8xx: correct pinctrl unit-address
+
+The unit-address must match the first address specified in the reg property of the node.
+
+Before:
+root@evb-npcm845:~# gpiodetect
+gpiochip0 [/pinctrl@f0800260/gpio@f0010000] (32 lines)
+gpiochip1 [/pinctrl@f0800260/gpio@f0011000] (32 lines)
+gpiochip2 [/pinctrl@f0800260/gpio@f0012000] (32 lines)
+gpiochip3 [/pinctrl@f0800260/gpio@f0013000] (32 lines)
+gpiochip4 [/pinctrl@f0800260/gpio@f0014000] (32 lines)
+gpiochip5 [/pinctrl@f0800260/gpio@f0015000] (32 lines)
+gpiochip6 [/pinctrl@f0800260/gpio@f0016000] (32 lines)
+gpiochip7 [/pinctrl@f0800260/gpio@f0017000] (32 lines)
+gpiochip8 [f0102000.sgpio] (128 lines)
+
+After:
+root@evb-npcm845:~# gpiodetect
+gpiochip0 [/pinctrl@f0010000/gpio@f0010000] (32 lines)
+gpiochip1 [/pinctrl@f0010000/gpio@f0011000] (32 lines)
+gpiochip2 [/pinctrl@f0010000/gpio@f0012000] (32 lines)
+gpiochip3 [/pinctrl@f0010000/gpio@f0013000] (32 lines)
+gpiochip4 [/pinctrl@f0010000/gpio@f0014000] (32 lines)
+gpiochip5 [/pinctrl@f0010000/gpio@f0015000] (32 lines)
+gpiochip6 [/pinctrl@f0010000/gpio@f0016000] (32 lines)
+gpiochip7 [/pinctrl@f0010000/gpio@f0017000] (32 lines)
+gpiochip8 [f0102000.sgpio] (128 lines
+
+Signed-off-by: Eason Yang <yhyang2@nuvoton.com>
+---
+ arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi     | 2 +-
+ arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-pincfg-evb.dtsi | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi b/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi
+index d8a0415803ce..578d47053dc5 100644
+--- a/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi
++++ b/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi
+@@ -1111,7 +1111,7 @@ cpu1_alert0: trip-point0 {
+ 		};
+ 	};
+ 
+-	pinctrl: pinctrl@f0800260 {
++	pinctrl: pinctrl@f0010000 {
+ 		compatible = "nuvoton,npcm845-pinctrl", "syscon", "simple-mfd";
+ 		ranges = <0x0 0x0 0xf0010000 0x8000>;
+ 		#address-cells = <1>;
+diff --git a/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-pincfg-evb.dtsi b/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-pincfg-evb.dtsi
+index 5d75882c1a4a..6212c8e1b9f1 100644
+--- a/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-pincfg-evb.dtsi
++++ b/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-pincfg-evb.dtsi
+@@ -2,7 +2,7 @@
+ // Copyright (c) 2018 Nuvoton Technology
+ 
+ / {
+-	pinctrl: pinctrl@f0800260 {
++	pinctrl: pinctrl@f0010000 {
+ 		pin4_slew: pin4_slew {
+ 			pins = "GPIO4/IOX2_DI/SMB1D_SDA";
+ 			slew-rate = <1>;
+-- 
+2.34.1
+

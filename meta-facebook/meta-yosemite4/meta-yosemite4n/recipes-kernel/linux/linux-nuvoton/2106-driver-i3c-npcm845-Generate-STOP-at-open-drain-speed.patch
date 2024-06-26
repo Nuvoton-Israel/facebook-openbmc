@@ -1,0 +1,26 @@
+From 6fb61140215a0c3ae6a6398205af3c7596600dd3 Mon Sep 17 00:00:00 2001
+From: Marvin Lin <milkfafa@gmail.com>
+Date: Wed, 3 Jul 2024 10:44:51 +0800
+Subject: [PATCH 1/2] driver: i3c: npcm845: Generate STOP at open-drain speed
+
+Generate STOP at open-drain speed.
+---
+ drivers/i3c/master/npcm845-i3c-master.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/i3c/master/npcm845-i3c-master.c b/drivers/i3c/master/npcm845-i3c-master.c
+index 4dbb7c2ea15e..de0b7df49351 100644
+--- a/drivers/i3c/master/npcm845-i3c-master.c
++++ b/drivers/i3c/master/npcm845-i3c-master.c
+@@ -760,7 +760,7 @@ static int npcm_i3c_master_bus_init(struct i3c_master_controller *m)
+ 	i3c_scl_rate = 1000000000 / (((ppbaud + 1) * 2 + pplow) * fclk_period_ns);
+ 	i2c_scl_rate = 1000000000 / ((i2cbaud + 2) * od_low_period_ns);
+ 
+-	if (bus->mode != I3C_BUS_MODE_PURE)
++	//if (bus->mode != I3C_BUS_MODE_PURE)
+ 		odstop = 1;
+ 
+ 	reg = NPCM_I3C_MCONFIG_MASTER_EN |
+-- 
+2.34.1
+

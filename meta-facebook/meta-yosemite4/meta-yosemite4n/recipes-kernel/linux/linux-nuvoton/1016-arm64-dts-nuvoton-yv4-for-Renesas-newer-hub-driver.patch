@@ -1,0 +1,54 @@
+From bbedb4b6b9c1662fbe5d9b1d204832ecd2ad4742 Mon Sep 17 00:00:00 2001
+From: Marvin Lin <milkfafa@gmail.com>
+Date: Fri, 28 Jun 2024 15:55:44 +0800
+Subject: [PATCH] arm64 dts nuvoton yv4 for Renesas newer hub driver
+
+---
+ .../dts/nuvoton/nuvoton-npcm845-yosemite4.dts | 24 ++++++++++++-------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-yosemite4.dts b/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-yosemite4.dts
+index 80768599a6d2..f83561b8c7a1 100644
+--- a/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-yosemite4.dts
++++ b/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-yosemite4.dts
+@@ -323,10 +323,14 @@ &i3c1 {
+ 	mctp-controller;
+ 	hub@0x70 {
+ 		reg = <0x70 0x3c0 0x00700000>;
+-		cp0-ldo = "1.2V";
+-		cp1-ldo = "1.2V";
+-		tp0145-ldo = "1.2V";
+-		tp2367-ldo = "1.2V";
++		cp0-ldo-en = "enabled";
++		cp1-ldo-en = "enabled";
++		cp0-ldo-volt = "1.2V";
++		cp1-ldo-volt = "1.2V";
++		tp0145-ldo-en = "enabled";
++		tp2367-ldo-en = "enabled";
++		tp0145-ldo-volt = "1.2V";
++		tp2367-ldo-volt = "1.2V";
+ 		tp0145-pullup = "2k";
+ 		tp2367-pullup = "2k";
+ 
+@@ -361,10 +365,14 @@ &i3c2 {
+ 	mctp-controller;
+ 	hub@0x70 {
+ 		reg = <0x70 0x3c0 0x00700000>;
+-		cp0-ldo = "1.2V";
+-		cp1-ldo = "1.2V";
+-		tp0145-ldo = "1.2V";
+-		tp2367-ldo = "1.2V";
++		cp0-ldo-en = "enabled";
++		cp1-ldo-en = "enabled";
++		cp0-ldo-volt = "1.2V";
++		cp1-ldo-volt = "1.2V";
++		tp0145-ldo-en = "enabled";
++		tp2367-ldo-en = "enabled";
++		tp0145-ldo-volt = "1.2V";
++		tp2367-ldo-volt = "1.2V";
+ 		tp0145-pullup = "2k";
+ 		tp2367-pullup = "2k";
+ 
+-- 
+2.34.1
+

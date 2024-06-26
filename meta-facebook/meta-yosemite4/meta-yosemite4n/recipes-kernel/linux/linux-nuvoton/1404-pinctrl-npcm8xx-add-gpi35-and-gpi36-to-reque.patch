@@ -1,0 +1,28 @@
+From 23813f653336c1713fcd758c0f1df3819f395b7a Mon Sep 17 00:00:00 2001
+From: Tomer Maimon <tmaimon77@gmail.com>
+Date: Mon, 25 Dec 2023 10:08:38 +0200
+Subject: [PATCH 3/6] pinctrl: npcm8xx: add gpi35 and gpi36 to request
+ function
+
+Signed-off-by: Tomer Maimon <tmaimon77@gmail.com>
+---
+ drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c b/drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c
+index 390d14d9c5ee..0d07329330e5 100644
+--- a/drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c
++++ b/drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c
+@@ -2055,7 +2055,8 @@ static int npcm8xx_gpio_request_enable(struct pinctrl_dev *pctldev,
+ 	const unsigned int *pin = &offset;
+ 	int mode = fn_gpio;
+ 
+-	if (pin[0] >= 183 && pin[0] <= 189)
++
++	if (((pin[0] >= 183) && (pin[0] <= 189)) || (pin[0] == 35) || (pin[0] == 36))
+ 		mode = pincfg[pin[0]].fn0;
+ 
+ 	npcm8xx_setfunc(npcm->gcr_regmap, &offset, 1, mode);
+-- 
+2.34.1
+

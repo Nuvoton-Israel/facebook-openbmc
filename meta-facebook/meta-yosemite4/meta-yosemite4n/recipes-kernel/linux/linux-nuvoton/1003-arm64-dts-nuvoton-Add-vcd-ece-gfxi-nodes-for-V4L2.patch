@@ -1,0 +1,75 @@
+From 438c05f127734a5617b1729b7615909a19140a87 Mon Sep 17 00:00:00 2001
+From: Marvin Lin <milkfafa@gmail.com>
+Date: Tue, 9 Apr 2024 09:23:53 +0800
+Subject: [PATCH 07/19] arm64: dts: nuvoton: Add vcd/ece/gfxi nodes for V4L2
+
+Add vcd/ece/gfxi nodes for V4L2.
+
+Signed-off-by: Marvin Lin <milkfafa@gmail.com>
+---
+ .../dts/nuvoton/nuvoton-common-npcm8xx.dtsi   | 25 +++++++++++++++++++
+ .../boot/dts/nuvoton/nuvoton-npcm845-evb.dts  |  8 ++++++
+ 2 files changed, 33 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi b/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi
+index 0838eca6261c..5aade79e0d92 100644
+--- a/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi
++++ b/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi
+@@ -217,6 +217,25 @@ pcimbox: pcimbox@f0848000 {
+ 			interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
+ 		};
+ 
++		vcd: vcd@f0810000 {
++			compatible = "nuvoton,npcm845-vcd";
++			reg = <0x0 0xf0810000 0x0 0x10000>;
++			interrupts = <GIC_SPI 22 IRQ_TYPE_LEVEL_HIGH>;
++			resets = <&rstc 0x24 14>;
++			nuvoton,sysgcr = <&gcr>;
++			nuvoton,sysgfxi = <&gfxi>;
++			nuvoton,ece = <&ece>;
++			status = "disabled";
++		};
++
++		ece: video-codec@f0820000 {
++			compatible = "nuvoton,npcm845-ece";
++			reg = <0x0 0xf0820000 0x0 0x2000>;
++			interrupts = <GIC_SPI 24 IRQ_TYPE_LEVEL_HIGH>;
++			resets = <&rstc 0x24 13>;
++			status = "disabled";
++		};
++
+ 		apb {
+ 			#address-cells = <1>;
+ 			#size-cells = <1>;
+@@ -809,6 +828,12 @@ i2c26: i2c@fff0a000 {
+ 				nuvoton,sys-mgr = <&gcr>;
+ 				status = "disabled";
+ 			};
++
++			gfxi: gfxi@e000 {
++				compatible = "nuvoton,npcm845-gfxi", "syscon",
++					     "simple-mfd";
++				reg = <0xe000 0x100>;
++			};
+ 		};
+ 	};
+ 
+diff --git a/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts b/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts
+index e4cda4934207..2c153c4da700 100644
+--- a/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts
++++ b/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts
+@@ -562,3 +562,11 @@ intel-peci-dimmtemp@30 {
+ 		status = "okay";
+ 	};
+ };
++
++&vcd {
++	status = "okay";
++};
++
++&ece {
++	status = "okay";
++};
+-- 
+2.34.1
+

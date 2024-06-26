@@ -1,0 +1,169 @@
+From b3db60c7ee8c44cc8291774729be30984b13e7df Mon Sep 17 00:00:00 2001
+From: Stanley Chu <yschu@nuvoton.com>
+Date: Fri, 28 Jun 2024 15:55:01 +0800
+Subject: [PATCH] i3c: npcm845: add error handling
+
+Signed-off-by: Stanley Chu <yschu@nuvoton.com>
+---
+ drivers/i3c/master/npcm845-i3c-master.c | 56 +++++++++++++++++++++----
+ 1 file changed, 48 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/i3c/master/npcm845-i3c-master.c b/drivers/i3c/master/npcm845-i3c-master.c
+index 960101a3e897..5902c950b8a2 100644
+--- a/drivers/i3c/master/npcm845-i3c-master.c
++++ b/drivers/i3c/master/npcm845-i3c-master.c
+@@ -68,6 +68,7 @@
+ #define   NPCM_I3C_MSTATUS_STATE_DAA(x) (NPCM_I3C_MSTATUS_STATE(x) == 5)
+ #define   NPCM_I3C_MSTATUS_STATE_IDLE(x) (NPCM_I3C_MSTATUS_STATE(x) == 0)
+ #define   NPCM_I3C_MSTATUS_STATE_SLVREQ(x) (NPCM_I3C_MSTATUS_STATE(x) == 1)
++#define   NPCM_I3C_MSTATUS_STATE_IBIACK(x) (NPCM_I3C_MSTATUS_STATE(x) == 6)
+ #define   NPCM_I3C_MSTATUS_BETWEEN(x) FIELD_GET(BIT(4), (x))
+ #define   NPCM_I3C_MSTATUS_NACKED(x) FIELD_GET(BIT(5), (x))
+ #define   NPCM_I3C_MSTATUS_IBITYPE(x) FIELD_GET(GENMASK(7, 6), (x))
+@@ -355,6 +356,11 @@ static void npcm_i3c_master_flush_fifo(struct npcm_i3c_master *master)
+ 	       master->regs + NPCM_I3C_MDATACTRL);
+ }
+ 
++static void npcm_i3c_master_flush_rx_fifo(struct npcm_i3c_master *master)
++{
++	writel(NPCM_I3C_MDATACTRL_FLUSHRB, master->regs + NPCM_I3C_MDATACTRL);
++}
++
+ static void npcm_i3c_master_reset_fifo_trigger(struct npcm_i3c_master *master)
+ {
+ 	u32 reg;
+@@ -408,6 +414,12 @@ npcm_i3c_master_dev_from_addr(struct npcm_i3c_master *master,
+ 
+ static void npcm_i3c_master_emit_stop(struct npcm_i3c_master *master)
+ {
++	u32 reg = readl(master->regs + NPCM_I3C_MSTATUS);
++
++	/* Do not emit stop in the IDLE or SLVREQ state */
++	if (NPCM_I3C_MSTATUS_STATE_IDLE(reg) || NPCM_I3C_MSTATUS_STATE_SLVREQ(reg))
++		return;
++
+ 	writel(NPCM_I3C_MCTRL_REQUEST_STOP, master->regs + NPCM_I3C_MCTRL);
+ 
+ 	/*
+@@ -429,10 +441,15 @@ static int npcm_i3c_master_handle_ibi(struct npcm_i3c_master *master,
+ 	int ret;
+ 	u8 *buf;
+ 
++	if (!data->ibi_pool) {
++		dev_err_ratelimited(master->dev, "No ibi pool for addr 0x%x\n",
++			master->addrs[data->index]);
++		goto no_ibi_pool;
++	}
+ 	slot = i3c_generic_ibi_get_free_slot(data->ibi_pool);
+ 	if (!slot) {
+ 		dev_err_ratelimited(master->dev, "No free ibi slot\n");
+-		return -ENOSPC;
++		goto no_ibi_pool;
+ 	}
+ 
+ 	slot->len = 0;
+@@ -464,12 +481,22 @@ static int npcm_i3c_master_handle_ibi(struct npcm_i3c_master *master,
+ 	master->ibi.tbq_slot = slot;
+ 
+ 	return ret;
++
++no_ibi_pool:
++	/* No ibi pool, drop the payload if received  */
++	readl_relaxed_poll_timeout(master->regs + NPCM_I3C_MSTATUS, val,
++				   NPCM_I3C_MSTATUS_COMPLETE(val) |
++				   NPCM_I3C_MSTATUS_STATE_IDLE(val),
++				   0, 1000);
++	npcm_i3c_master_flush_rx_fifo(master);
++	return -ENOSPC;
+ }
+ 
+ static void npcm_i3c_master_ack_ibi(struct npcm_i3c_master *master,
+ 				   bool mandatory_byte)
+ {
+ 	unsigned int ibi_ack_nack;
++	u32 reg;
+ 
+ 	ibi_ack_nack = NPCM_I3C_MCTRL_REQUEST_IBI_ACKNACK;
+ 	if (mandatory_byte)
+@@ -479,13 +506,19 @@ static void npcm_i3c_master_ack_ibi(struct npcm_i3c_master *master,
+ 		ibi_ack_nack |= NPCM_I3C_MCTRL_IBIRESP_ACK_WITHOUT_BYTE;
+ 
+ 	writel(ibi_ack_nack, master->regs + NPCM_I3C_MCTRL);
++	readl_poll_timeout(master->regs + NPCM_I3C_MSTATUS, reg,
++			   NPCM_I3C_MSTATUS_MCTRLDONE(reg), 0, 1000);
+ }
+ 
+ static void npcm_i3c_master_nack_ibi(struct npcm_i3c_master *master)
+ {
++	u32 reg;
++
+ 	writel(NPCM_I3C_MCTRL_REQUEST_IBI_ACKNACK |
+ 	       NPCM_I3C_MCTRL_IBIRESP_NACK,
+ 	       master->regs + NPCM_I3C_MCTRL);
++	readl_poll_timeout(master->regs + NPCM_I3C_MSTATUS, reg,
++			   NPCM_I3C_MSTATUS_MCTRLDONE(reg), 0, 1000);
+ }
+ 
+ static int npcm_i3c_master_handle_ibiwon(struct npcm_i3c_master *master, bool autoibi)
+@@ -507,7 +540,8 @@ static int npcm_i3c_master_handle_ibiwon(struct npcm_i3c_master *master, bool au
+ 	switch (ibitype) {
+ 	case NPCM_I3C_MSTATUS_IBITYPE_IBI:
+ 		dev = npcm_i3c_master_dev_from_addr(master, ibiaddr);
+-		if (!dev) {
++		/* Bypass the invalid ibi with address 0 */
++		if (!dev || ibiaddr == 0) {
+ 			npcm_i3c_master_nack_ibi(master);
+ 			break;
+ 		}
+@@ -524,6 +558,12 @@ static int npcm_i3c_master_handle_ibiwon(struct npcm_i3c_master *master, bool au
+ 		break;
+ 	case NPCM_I3C_MSTATUS_IBITYPE_MASTER_REQUEST:
+ 		npcm_i3c_master_nack_ibi(master);
++		status = readl(master->regs + NPCM_I3C_MSTATUS);
++		/* Invalid event may be reported as MR request
++		 * and sometimes produce dummy bytes. Flush the garbage data.
++		 */
++		if (NPCM_I3C_MSTATUS_RXPEND(status))
++			npcm_i3c_master_flush_rx_fifo(master);
+ 		break;
+ 	default:
+ 		break;
+@@ -554,13 +594,11 @@ static int npcm_i3c_master_handle_ibiwon(struct npcm_i3c_master *master, bool au
+ 	/* Handle the non critical tasks */
+ 	switch (ibitype) {
+ 	case NPCM_I3C_MSTATUS_IBITYPE_IBI:
+-		val = readl(master->regs + NPCM_I3C_MSTATUS);
+ 		/*
+ 		 * Sometimes I3C HW returns to IDLE state after IBIRCV completed,
+ 		 * do not emit STOP in the idle state.
+ 		 */
+-		if (!NPCM_I3C_MSTATUS_STATE_IDLE(val))
+-			npcm_i3c_master_emit_stop(master);
++		npcm_i3c_master_emit_stop(master);
+ 		if (dev && master->ibi.tbq_slot) {
+ 			i3c_master_queue_ibi(dev, master->ibi.tbq_slot);
+ 			master->ibi.tbq_slot = NULL;
+@@ -607,15 +645,17 @@ static void npcm_i3c_master_ibi_isr(struct npcm_i3c_master *master)
+ 	ret = readl_relaxed_poll_timeout_atomic(master->regs + NPCM_I3C_MSTATUS, val,
+ 					 NPCM_I3C_MSTATUS_IBIWON(val), 0, 1000);
+ 	if (ret) {
+-		dev_err(master->dev, "Timeout when polling for IBIWON\n");
+ 		/* Cancle AUTOIBI if not started */
+ 		val = readl(master->regs + NPCM_I3C_MCTRL);
+ 		if (NPCM_I3C_MCTRL_REQUEST(val) == NPCM_I3C_MCTRL_REQUEST_AUTO_IBI)
+ 			writel(0, master->regs + NPCM_I3C_MCTRL);
++		dev_err(master->dev, "Timeout when polling for IBIWON\n");
+ 		npcm_i3c_master_clear_merrwarn(master);
+ 		mstatus = readl(master->regs + NPCM_I3C_MSTATUS);
+-		if (!NPCM_I3C_MSTATUS_STATE_IDLE(mstatus))
+-			npcm_i3c_master_emit_stop(master);
++		/* In case IBIWON occurred at this moment, NACK the IBI */
++		if (NPCM_I3C_MSTATUS_STATE_IBIACK(mstatus))
++			npcm_i3c_master_nack_ibi(master);
++		npcm_i3c_master_emit_stop(master);
+ 		goto ibi_out;
+ 	}
+ 
+-- 
+2.34.1
+

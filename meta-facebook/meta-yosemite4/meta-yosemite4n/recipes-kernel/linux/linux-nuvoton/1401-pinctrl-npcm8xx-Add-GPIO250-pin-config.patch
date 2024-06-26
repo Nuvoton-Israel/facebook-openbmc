@@ -1,0 +1,34 @@
+From c664c3f3f7ee6bfe68903d8ba354c8c0ef5bd8ad Mon Sep 17 00:00:00 2001
+From: Stanley Chu <yschu@nuvoton.com>
+Date: Fri, 12 Apr 2024 08:07:00 +0800
+Subject: [PATCH] pinctrl: npcm8xx: Add GPIO250 pin config
+
+Signed-off-by: Stanley Chu <yschu@nuvoton.com>
+---
+ drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c b/drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c
+index 2972c3b92a83..a7465a812e2b 100644
+--- a/drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c
++++ b/drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c
+@@ -520,7 +520,7 @@ static const int rg2_pins[] = { 110, 111, 112, 113, 208, 209, 210, 211, 212,
+ static const int rg2mdio_pins[] = { 216, 217 };
+ 
+ static const int ddr_pins[] = { 110, 111, 112, 113, 208, 209, 210, 211, 212,
+-	213, 214, 215, 216, 217 };
++	213, 214, 215, 216, 217, 250 };
+ 
+ static const int iox1_pins[] = { 0, 1, 2, 3 };
+ static const int iox2_pins[] = { 4, 5, 6, 7 };
+@@ -1572,6 +1572,7 @@ static const struct npcm8xx_pincfg pincfg[] = {
+ 	NPCM8XX_PINCFG(245,	i3c2, MFSEL5, 21,	none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		SLEW),
+ 	NPCM8XX_PINCFG(246,	i3c3, MFSEL5, 23,	none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		SLEW),
+ 	NPCM8XX_PINCFG(247,	i3c3, MFSEL5, 23,	none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		SLEW),
++	NPCM8XX_PINCFG(250,	ddr, MFSEL3, 26,	none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		DSTR(8, 12) | SLEW),
+ 	NPCM8XX_PINCFG(251,	jm2, MFSEL5, 1,		none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		SLEW),
+ 	NPCM8XX_PINCFG(253,	none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		GPI), /* SDHC1 power */
+ 	NPCM8XX_PINCFG(254,	none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		GPI), /* SDHC2 power */
+-- 
+2.34.1
+

@@ -1,0 +1,77 @@
+From 713988fdeab00bbbc9aefe8cdc17ff87401f6d92 Mon Sep 17 00:00:00 2001
+From: Joseph Liu <kwliu@nuvoton.com>
+Date: Thu, 27 Jun 2024 16:48:01 +0800
+Subject: [PATCH] arm64: dts: npcm8xx: modify i3c node to support npcm8xx i3c
+ driver
+
+Signed-off-by: Joseph Liu <kwliu@nuvoton.com>
+---
+ .../boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi    | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi b/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi
+index 2b3bb0739b33..4681fd180126 100644
+--- a/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi
++++ b/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi
+@@ -598,7 +598,7 @@ &fanin12_pins &fanin13_pins
+ 			};
+ 
+ 			i3c0: i3c@fff10000 {
+-				compatible = "silvaco,i3c-master";
++				compatible = "nuvoton,npcm845-i3c";
+ 				reg = <0xfff10000 0x1000>,
+ 				      <0xf0850000 0x1000>,
+ 				      <0xf0800300 0x4>;
+@@ -612,12 +612,11 @@ &i3c0_scl_slew
+ 				resets = <&rstc 0x74 8>;
+ 				#address-cells = <3>;
+ 				#size-cells = <0>;
+-				dma-mux = <6>;
+ 				status = "disabled";
+ 			};
+ 
+ 			i3c1: i3c@fff11000 {
+-				compatible = "silvaco,i3c-master";
++				compatible = "nuvoton,npcm845-i3c";
+ 				reg = <0xfff11000 0x1000>;
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&i3c1_pins
+@@ -633,7 +632,7 @@ &i3c1_scl_slew
+ 			};
+ 
+ 			i3c2: i3c@fff12000 {
+-				compatible = "silvaco,i3c-master";
++				compatible = "nuvoton,npcm845-i3c";
+ 				reg = <0xfff12000 0x1000>;
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&i3c2_pins
+@@ -649,7 +648,7 @@ &i3c2_scl_slew
+ 			};
+ 
+ 			i3c3: i3c@fff13000 {
+-				compatible = "silvaco,i3c-master";
++				compatible = "nuvoton,npcm845-i3c";
+ 				reg = <0xfff13000 0x1000>;
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&i3c3_pins
+@@ -665,7 +664,7 @@ &i3c3_scl_slew
+ 			};
+ 
+ 			i3c4: i3c@fff14000 {
+-				compatible = "silvaco,i3c-master";
++				compatible = "nuvoton,npcm845-i3c";
+ 				reg = <0xfff14000 0x1000>;
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&i3c4_pins
+@@ -681,7 +680,7 @@ &i3c4_scl_slew
+ 			};
+ 
+ 			i3c5: i3c@fff15000 {
+-				compatible = "silvaco,i3c-master";
++				compatible = "nuvoton,npcm845-i3c";
+ 				reg = <0xfff15000 0x1000>;
+ 				pinctrl-names = "default";
+ 				pinctrl-0 = <&i3c5_pins
+-- 
+2.34.1
+

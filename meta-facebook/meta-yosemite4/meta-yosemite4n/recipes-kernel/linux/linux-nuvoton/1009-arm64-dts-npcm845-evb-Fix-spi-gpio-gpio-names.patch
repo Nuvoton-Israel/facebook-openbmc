@@ -1,0 +1,35 @@
+From f16ec71a753645f6f97d179ce71e152b95a7959e Mon Sep 17 00:00:00 2001
+From: Stanley Chu <yschu@nuvoton.com>
+Date: Tue, 23 Apr 2024 11:39:23 +0800
+Subject: [PATCH 14/19] arm64: dts: npcm845-evb: Fix spi-gpio gpio names
+
+Fix the warning.
+spi-gpio uses legacy gpio name 'gpio-mosi' instead of 'mosi-gpios'
+spi-gpio uses legacy gpio name 'gpio-miso' instead of 'miso-gpios'
+spi-gpio uses legacy gpio name 'gpio-sck' instead of 'sck-gpios'
+
+Signed-off-by: Stanley Chu <yschu@nuvoton.com>
+---
+ arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts b/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts
+index e30339076a23..8ba21a9c4134 100644
+--- a/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts
++++ b/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts
+@@ -77,9 +77,9 @@ spi_gpio: spi-gpio {
+ 		compatible = "spi-gpio";
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+-		gpio-sck = <&gpio0 12 GPIO_ACTIVE_HIGH>;
+-		gpio-mosi = <&gpio0 13 GPIO_ACTIVE_HIGH>;
+-		gpio-miso = <&gpio0 14 GPIO_ACTIVE_HIGH>;
++		sck-gpios = <&gpio0 12 GPIO_ACTIVE_HIGH>;
++		mosi-gpios = <&gpio0 13 GPIO_ACTIVE_HIGH>;
++		miso-gpios = <&gpio0 14 GPIO_ACTIVE_HIGH>;
+ 		num-chipselects = <1>;
+ 		cs-gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
+ 
+-- 
+2.34.1
+

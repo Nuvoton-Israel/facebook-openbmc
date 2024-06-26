@@ -1,0 +1,36 @@
+From 6229c31611e3b7a9813a44ddf41faee3a5f9a1da Mon Sep 17 00:00:00 2001
+From: Tomer Maimon <tmaimon77@gmail.com>
+Date: Wed, 24 Apr 2024 18:59:29 +0300
+Subject: [PATCH 15/19] arm64: dts: npcm8xx: modify ohci compatible name
+
+Modify ohci compatible name to support generic OHCI as well.
+
+Signed-off-by: Tomer Maimon <tmaimon77@gmail.com>
+---
+ arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi b/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi
+index 55df92c8c6f7..d8a0415803ce 100644
+--- a/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi
++++ b/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi
+@@ -159,14 +159,14 @@ ehci2: usb@f082a100 {
+ 		};
+ 
+ 		ohci1: usb@f0829000 {
+-			compatible = "nuvoton,npcm750-ohci";
++			compatible = "nuvoton,npcm750-ohci", "generic-ohci";
+ 			reg = <0x0 0xf0829000 0x0 0x1000>;
+ 			interrupts = <GIC_SPI 62 IRQ_TYPE_LEVEL_HIGH>;
+ 			status = "disabled";
+ 		};
+ 
+ 		ohci2: usb@f082b000 {
+-			compatible = "nuvoton,npcm750-ohci";
++			compatible = "nuvoton,npcm750-ohci", "generic-ohci";
+ 			reg = <0x0 0xf082b000 0x0 0x1000>;
+ 			interrupts = <GIC_SPI 64 IRQ_TYPE_LEVEL_HIGH>;
+ 			status = "disabled";
+-- 
+2.34.1
+

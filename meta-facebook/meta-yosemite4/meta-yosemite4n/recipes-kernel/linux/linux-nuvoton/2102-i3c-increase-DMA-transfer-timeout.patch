@@ -1,0 +1,26 @@
+From 06e91adc7c8fd8fb27f227e2cce217c5b5a3aa65 Mon Sep 17 00:00:00 2001
+From: Joseph Liu <kwliu@nuvoton.com>
+Date: Thu, 27 Jun 2024 16:23:53 +0800
+Subject: [PATCH] i3c: increase DMA transfer timeout
+
+Signed-off-by: Joseph Liu <kwliu@nuvoton.com>
+---
+ drivers/i3c/master/npcm845-i3c-master.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/i3c/master/npcm845-i3c-master.c b/drivers/i3c/master/npcm845-i3c-master.c
+index b4dea1b7e714..8a7fa1c0983c 100644
+--- a/drivers/i3c/master/npcm845-i3c-master.c
++++ b/drivers/i3c/master/npcm845-i3c-master.c
+@@ -1327,7 +1327,7 @@ static int npcm_i3c_master_wait_for_complete(struct npcm_i3c_master *master)
+ 	u32 count;
+ 	int ret;
+ 
+-	ret = wait_for_completion_timeout(&master->xfer_comp, msecs_to_jiffies(100));
++	ret = wait_for_completion_timeout(&master->xfer_comp, msecs_to_jiffies(1000));
+ 	if (!ret) {
+ 		dev_err(master->dev, "DMA transfer timeout (%s)\n", xfer->rnw ? "Read" : "write");
+ 		dev_err(master->dev, "mstatus = 0x%02x\n", readl(master->regs + NPCM_I3C_MSTATUS));
+-- 
+2.34.1
+

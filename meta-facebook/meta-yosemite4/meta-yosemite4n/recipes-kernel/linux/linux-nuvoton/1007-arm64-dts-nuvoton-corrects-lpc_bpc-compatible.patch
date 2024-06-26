@@ -1,0 +1,62 @@
+From 628a6fe40751224adaddaafca73cc7c76fda9e15 Mon Sep 17 00:00:00 2001
+From: Joseph Liu <kwliu@nuvoton.com>
+Date: Mon, 15 Apr 2024 11:09:25 +0800
+Subject: [PATCH 11/19] arm64: dts: nuvoton: corrects lpc_bpc compatible
+
+Signed-off-by: Joseph Liu <kwliu@nuvoton.com>
+---
+ .../boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi   |  2 +-
+ .../arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts | 14 +++++++-------
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi b/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi
+index 92717af25e18..fc4fc3c553b1 100644
+--- a/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi
++++ b/arch/arm64/boot/dts/nuvoton/nuvoton-common-npcm8xx.dtsi
+@@ -343,7 +343,7 @@ lpc_host: lpc_host@7000 {
+ 				ranges = <0x0 0x7000 0x60>;
+ 
+ 				lpc_bpc: lpc_bpc@40 {
+-					compatible = "nuvoton,npcm845-lpc-bpc", "nuvoton,npcm750-lpc-bpc";
++					compatible = "nuvoton,npcm-bpc";
+ 					reg = <0x40 0x20>;
+ 					interrupts = <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
+ 					status = "disabled";
+diff --git a/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts b/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts
+index 92d3a21f8aa0..15584438f023 100644
+--- a/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts
++++ b/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-evb.dts
+@@ -425,7 +425,7 @@ kcs3: kcs3@0 {
+ 
+ &lpc_host {
+ 	lpc_bpc: lpc_bpc@40 {
+-		monitor-ports = <0x80>;
++		nuvoton,monitor-ports = <0x80>;
+ 		status = "okay";
+ 	};
+ };
+@@ -669,15 +669,15 @@ &i2c26 {
+ };
+ 
+ &i3c0 {
+-        status = "okay";
+-        i3c-scl-hz = <12500000>;
+-        i2c-scl-hz = <400000>;
++    status = "okay";
++    i3c-scl-hz = <12500000>;
++    i2c-scl-hz = <400000>;
+ };
+ 
+ &i3c1 {
+-        status = "okay";
+-        i3c-scl-hz = <12500000>;
+-        i2c-scl-hz = <400000>;
++    status = "okay";
++    i3c-scl-hz = <12500000>;
++    i2c-scl-hz = <400000>;
+ };
+ 
+ &mc {
+-- 
+2.34.1
+

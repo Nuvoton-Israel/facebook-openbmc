@@ -1,0 +1,26 @@
+From 1acae0147359abfd8df625071ab5feb1baab1855 Mon Sep 17 00:00:00 2001
+From: Marvin Lin <milkfafa@gmail.com>
+Date: Wed, 3 Jul 2024 10:52:27 +0800
+Subject: [PATCH 2/2] driver: i3c: npcm845: Remove redundant
+ npcm_i3c_master_start_dma
+
+Remove redundant npcm_i3c_master_start_dma.
+---
+ drivers/i3c/master/npcm845-i3c-master.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/i3c/master/npcm845-i3c-master.c b/drivers/i3c/master/npcm845-i3c-master.c
+index de0b7df49351..1dc13f5e6c2e 100644
+--- a/drivers/i3c/master/npcm845-i3c-master.c
++++ b/drivers/i3c/master/npcm845-i3c-master.c
+@@ -1444,7 +1444,6 @@ static int npcm_i3c_master_xfer(struct npcm_i3c_master *master,
+ 		master->dma_xfer.rnw = rnw;
+ 		master->dma_xfer.end = !continued;
+ 		init_completion(&master->xfer_comp);
+-		npcm_i3c_master_start_dma(master);
+ 	}
+ 
+ 	start = jiffies;
+-- 
+2.34.1
+
