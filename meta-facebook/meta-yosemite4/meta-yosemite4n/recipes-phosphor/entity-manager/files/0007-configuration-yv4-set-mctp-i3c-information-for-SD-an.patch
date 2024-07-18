@@ -1,0 +1,88 @@
+From d25b54f18d782efc0ac49d2e4db0cac08a542073 Mon Sep 17 00:00:00 2001
+From: Joseph Liu <kwliu@nuvoton.com>
+Date: Wed, 21 Aug 2024 11:26:50 +0800
+Subject: [PATCH] configuration: yv4: set mctp i3c information for SD and WF
+
+Signed-off-by: Joseph Liu <kwliu@nuvoton.com>
+---
+ configurations/yosemite4_sentineldome_t1.json |  6 +++---
+ configurations/yosemite4_sentineldome_t2.json |  6 +++---
+ configurations/yosemite4_wailuafalls.json     | 18 +++++++++---------
+ 3 files changed, 15 insertions(+), 15 deletions(-)
+
+diff --git a/configurations/yosemite4_sentineldome_t1.json b/configurations/yosemite4_sentineldome_t1.json
+index 64904783..d3648c52 100644
+--- a/configurations/yosemite4_sentineldome_t1.json
++++ b/configurations/yosemite4_sentineldome_t1.json
+@@ -330,9 +330,9 @@
+             ]
+         },
+         {
+-            "Address": ["0x20"],
+-            "Bus": "$bus % 16",
+-            "Class": "I2C",
++            "Address": ["7", "236", "128", "1", "0", "$bus % 16 * 5"],
++            "Bus": "$bus / 4 - 4",
++            "Class": "I3C",
+             "EndpointId": "$bus % 15 * 10",
+             "IANA": "0015A000",
+             "Name": "BIC",
+diff --git a/configurations/yosemite4_sentineldome_t2.json b/configurations/yosemite4_sentineldome_t2.json
+index 10b902b9..3a625160 100644
+--- a/configurations/yosemite4_sentineldome_t2.json
++++ b/configurations/yosemite4_sentineldome_t2.json
+@@ -424,9 +424,9 @@
+             ]
+         },
+         {
+-            "Address": ["0x20"],
+-            "Bus": "$bus % 16",
+-            "Class": "I2C",
++            "Address": ["7", "236", "128", "1", "0", "$bus % 16 * 5"],
++            "Bus": "$bus / 4 - 4",
++            "Class": "I3C",
+             "EndpointId": "$bus % 15 * 10",
+             "IANA": "0015A000",
+             "Name": "BIC",
+diff --git a/configurations/yosemite4_wailuafalls.json b/configurations/yosemite4_wailuafalls.json
+index 3fa9dd44..0510d6fa 100644
+--- a/configurations/yosemite4_wailuafalls.json
++++ b/configurations/yosemite4_wailuafalls.json
+@@ -209,25 +209,25 @@
+             ]
+         },
+         {
+-            "Address": ["0x20"],
+-            "Bus": "$bus % 16",
+-            "Class": "I2C",
++            "Address": ["7", "236", "128", "1", "0", "$bus % 16 * 5"],
++            "Bus": "$bus / 4 - 4",
++            "Class": "I3C",
+             "EndpointId": "$bus % 15 * 10 + 2",
+             "Name": "BIC",
+             "Type": "MCTPEndpoint"
+         },
+         {
+-            "Address": ["0x20"],
+-            "Bus": "$bus % 16",
+-            "Class": "I2C",
++            "Address": ["7", "236", "128", "1", "0", "$bus % 16 * 5"],
++            "Bus": "$bus / 4 - 4",
++            "Class": "I3C",
+             "EndpointId": "$bus % 15 * 10 + 4",
+             "Name": "CXL1",
+             "Type": "MCTPEndpoint"
+         },
+         {
+-            "Address": ["0x20"],
+-            "Bus": "$bus % 16",
+-            "Class": "I2C",
++            "Address": ["7", "236", "128", "1", "0", "$bus % 16 * 5"],
++            "Bus": "$bus / 4 - 4",
++            "Class": "I3C",
+             "EndpointId": "$bus % 15 * 10 + 5",
+             "Name": "CXL2",
+             "Type": "MCTPEndpoint"
+-- 
+2.34.1
+
