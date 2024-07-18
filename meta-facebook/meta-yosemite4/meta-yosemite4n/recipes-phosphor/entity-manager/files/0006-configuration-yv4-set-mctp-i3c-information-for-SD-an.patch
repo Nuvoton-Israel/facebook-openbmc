@@ -1,0 +1,82 @@
+From 031c9c5f762143c85f2b6f510eb480f437d5113b Mon Sep 17 00:00:00 2001
+From: Joseph Liu <kwliu@nuvoton.com>
+Date: Sun, 21 Jul 2024 20:08:40 +0800
+Subject: [PATCH] configuration: yv4: set mctp i3c information for SD and WF
+
+---
+ configurations/yosemite4_sentineldome_t1.json |  5 +++--
+ configurations/yosemite4_sentineldome_t2.json |  5 +++--
+ configurations/yosemite4_wailuafalls.json     | 15 +++++++++------
+ 3 files changed, 15 insertions(+), 10 deletions(-)
+
+diff --git a/configurations/yosemite4_sentineldome_t1.json b/configurations/yosemite4_sentineldome_t1.json
+index 2011798d..85615c1f 100644
+--- a/configurations/yosemite4_sentineldome_t1.json
++++ b/configurations/yosemite4_sentineldome_t1.json
+@@ -330,8 +330,9 @@
+             ]
+         },
+         {
+-            "Address": "0x20",
+-            "Bus": "$bus % 16",
++            "Address": ["7", "236", "128", "1", "0", "$bus % 16 * 5"],
++            "Bus": "$bus / 4 - 4",
++            "Class": "I3C",
+             "EndpointId": "$bus % 15 * 10",
+             "IANA": "0015A000",
+             "Name": "BIC",
+diff --git a/configurations/yosemite4_sentineldome_t2.json b/configurations/yosemite4_sentineldome_t2.json
+index b5635ea4..3461fc89 100644
+--- a/configurations/yosemite4_sentineldome_t2.json
++++ b/configurations/yosemite4_sentineldome_t2.json
+@@ -424,8 +424,9 @@
+             ]
+         },
+         {
+-            "Address": "0x20",
+-            "Bus": "$bus % 16",
++            "Address": ["7", "236", "128", "1", "0", "$bus % 16 * 5"],
++            "Bus": "$bus / 4 - 4",
++            "Class": "I3C",
+             "EndpointId": "$bus % 15 * 10",
+             "IANA": "0015A000",
+             "Name": "BIC",
+diff --git a/configurations/yosemite4_wailuafalls.json b/configurations/yosemite4_wailuafalls.json
+index 4e706ef0..3ce5c725 100644
+--- a/configurations/yosemite4_wailuafalls.json
++++ b/configurations/yosemite4_wailuafalls.json
+@@ -209,22 +209,25 @@
+             ]
+         },
+         {
+-            "Address": "0x20",
+-            "Bus": "$bus % 16",
++            "Address": ["7", "236", "128", "1", "0", "$bus % 16 * 5"],
++            "Bus": "$bus / 4 - 4",
++            "Class": "I3C",
+             "EndpointId": "$bus % 15 * 10 + 2",
+             "Name": "BIC",
+             "Type": "MCTPEndpoint"
+         },
+         {
+-            "Address": "0x20",
+-            "Bus": "$bus % 16",
++            "Address": ["7", "236", "128", "1", "0", "$bus % 16 * 5"],
++            "Bus": "$bus / 4 - 4",
++            "Class": "I3C",
+             "EndpointId": "$bus % 15 * 10 + 4",
+             "Name": "CXL1",
+             "Type": "MCTPEndpoint"
+         },
+         {
+-            "Address": "0x20",
+-            "Bus": "$bus % 16",
++            "Address": ["7", "236", "128", "1", "0", "$bus % 16 * 5"],
++            "Bus": "$bus / 4 - 4",
++            "Class": "I3C",
+             "EndpointId": "$bus % 15 * 10 + 5",
+             "Name": "CXL2",
+             "Type": "MCTPEndpoint"
+-- 
+2.34.1
+

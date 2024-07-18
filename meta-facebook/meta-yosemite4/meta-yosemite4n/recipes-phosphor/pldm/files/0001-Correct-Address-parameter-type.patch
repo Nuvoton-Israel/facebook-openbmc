@@ -1,0 +1,74 @@
+From 99208782ccf20a227d1db716010c04aff202ff93 Mon Sep 17 00:00:00 2001
+From: Joseph Liu <kwliu@nuvoton.com>
+Date: Mon, 12 Aug 2024 10:59:11 +0800
+Subject: [PATCH] Correct Address parameter type
+
+Signed-off-by: Joseph Liu <kwliu@nuvoton.com>
+---
+ common/types.hpp                              | 2 +-
+ common/utils.hpp                              | 2 +-
+ libpldmresponder/fru.hpp                      | 2 +-
+ requester/configuration_discovery_handler.cpp | 8 +++++++-
+ 4 files changed, 10 insertions(+), 4 deletions(-)
+
+diff --git a/common/types.hpp b/common/types.hpp
+index 1a9123585..559b0d31e 100644
+--- a/common/types.hpp
++++ b/common/types.hpp
+@@ -63,7 +63,7 @@ using Property = std::string;
+ using PropertyType = std::string;
+ using Value =
+     std::variant<bool, uint8_t, int16_t, uint16_t, int32_t, uint32_t, int64_t,
+-                 uint64_t, double, std::string, std::vector<uint8_t>>;
++                 uint64_t, double, std::string, std::vector<uint8_t>, std::vector<uint64_t>>;
+ 
+ using PropertyMap = std::map<Property, Value>;
+ using InterfaceMap = std::map<Interface, PropertyMap>;
+diff --git a/common/utils.hpp b/common/utils.hpp
+index d5aeaa491..29beff2af 100644
+--- a/common/utils.hpp
++++ b/common/utils.hpp
+@@ -149,7 +149,7 @@ struct DBusMapping
+ 
+ using PropertyValue =
+     std::variant<bool, uint8_t, int16_t, uint16_t, int32_t, uint32_t, int64_t,
+-                 uint64_t, double, std::string, std::vector<uint8_t>,
++                 uint64_t, double, std::string, std::vector<uint8_t>, std::vector<uint64_t>,
+                  std::vector<std::string>>;
+ using DbusProp = std::string;
+ using DbusChangedProps = std::map<DbusProp, PropertyValue>;
+diff --git a/libpldmresponder/fru.hpp b/libpldmresponder/fru.hpp
+index a0757e6d7..bcc60bb09 100644
+--- a/libpldmresponder/fru.hpp
++++ b/libpldmresponder/fru.hpp
+@@ -26,7 +26,7 @@ namespace dbus
+ 
+ using Value = std::variant<bool, uint8_t, int16_t, uint16_t, int32_t, uint32_t,
+                            int64_t, uint64_t, double, std::string,
+-                           std::vector<uint8_t>, std::vector<std::string>>;
++                           std::vector<uint8_t>, std::vector<uint64_t>, std::vector<std::string>>;
+ using PropertyMap = std::map<Property, Value>;
+ using InterfaceMap = std::map<Interface, PropertyMap>;
+ using ObjectValueTree = std::map<sdbusplus::message::object_path, InterfaceMap>;
+diff --git a/requester/configuration_discovery_handler.cpp b/requester/configuration_discovery_handler.cpp
+index ac297e166..4e4376782 100644
+--- a/requester/configuration_discovery_handler.cpp
++++ b/requester/configuration_discovery_handler.cpp
+@@ -117,7 +117,13 @@ MctpEndpoint ConfigurationDiscoveryHandler::parseMctpEndpointFromResponse(
+     if (response.contains("Address") && response.contains("Bus") &&
+         response.contains("EndpointId") && response.contains("Name"))
+     {
+-        auto address = std::get<uint64_t>(response.at("Address"));
++        auto addressArray  = std::get<std::vector<uint64_t>>(response.at("Address"));
++        uint64_t address = 0;
++
++        for (const auto& element : addressArray) {
++            address = (address << 8) | element;
++        }
++
+         auto eid = std::get<uint64_t>(response.at("EndpointId"));
+         auto bus = std::get<uint64_t>(response.at("Bus"));
+         auto componentName = std::get<std::string>(response.at("Name"));
+-- 
+2.34.1
+

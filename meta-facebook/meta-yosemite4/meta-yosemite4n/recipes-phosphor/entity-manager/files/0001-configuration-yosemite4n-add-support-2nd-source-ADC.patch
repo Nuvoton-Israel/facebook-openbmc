@@ -1,0 +1,93 @@
+From 49f1b361b16b9df3dba6f0f605e922bf38b25789 Mon Sep 17 00:00:00 2001
+From: Tim Lee <timlee660101@gmail.com>
+Date: Mon, 12 Aug 2024 11:20:58 +0800
+Subject: [PATCH] configuration: yosemite4n: add support 2nd source ADC
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Add new ADC `MAX11615` type to support 2nd source.
+
+Tested:
+```
+root@bmc:~# busctl introspect xyz.openbmc_project.PSUSensor /xyz/openbmc_project/sensors/voltage/MGNT_P1V8_VOLT_V
+NAME                                                  TYPE      SIGNATURE RESULT/VALUE                             FLAGS
+xyz.openbmc_project.Sensor.Threshold.Critical         interface -         -                                        -
+.CriticalAlarmHigh                                    property  b         true                                     emits-change
+.CriticalAlarmLow                                     property  b         false                                    emits-change
+.CriticalHigh                                         property  d         1.944                                    emits-change writable
+.CriticalLow                                          property  d         1.656                                    emits-change writable
+xyz.openbmc_project.Sensor.Threshold.Warning          interface -         -                                        -
+.WarningAlarmHigh                                     property  b         true                                     emits-change
+.WarningAlarmLow                                      property  b         false                                    emits-change
+.WarningHigh                                          property  d         1.926                                    emits-change writable
+.WarningLow                                           property  d         1.674                                    emits-change writable
+xyz.openbmc_project.Sensor.Value                      interface -         -                                        -
+.MaxValue                                             property  d         255                                      emits-change
+.MinValue                                             property  d         0                                        emits-change
+.Unit                                                 property  s         "xyz.openbmc_project.Sensor.Value.Unit.… emits-change
+.Value                                                property  d         1.80581                                  emits-change writable
+
+```
+
+Change-Id: I3473ee94a8ec9f87d143b9e1765fedccdfd7e761
+Signed-off-by: Tim Lee <timlee660101@gmail.com>
+---
+ configurations/yosemite4n.json | 41 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
+
+diff --git a/configurations/yosemite4n.json b/configurations/yosemite4n.json
+index 72f59f37..749dca19 100644
+--- a/configurations/yosemite4n.json
++++ b/configurations/yosemite4n.json
+@@ -367,6 +367,47 @@
+             "in0_Name": "MGNT_P1V8_VOLT_V",
+             "in0_Scale": 824.561
+         },
++        {
++            "Address": "0x33",
++            "Bus": 34,
++            "Labels": [
++                "in_voltage0"
++            ],
++            "Name": "MGNT_ADC_33",
++            "Thresholds": [
++                {
++                    "Direction": "greater than",
++                    "Label": "in_voltage0",
++                    "Name": "upper critical",
++                    "Severity": 1,
++                    "Value": 1.944
++                },
++                {
++                    "Direction": "greater than",
++                    "Label": "in_voltage0",
++                    "Name": "upper non critical",
++                    "Severity": 0,
++                    "Value": 1.926
++                },
++                {
++                    "Direction": "less than",
++                    "Label": "in_voltage0",
++                    "Name": "lower non critical",
++                    "Severity": 0,
++                    "Value": 1.674
++                },
++                {
++                    "Direction": "less than",
++                    "Label": "in_voltage0",
++                    "Name": "lower critical",
++                    "Severity": 1,
++                    "Value": 1.656
++                }
++            ],
++            "Type": "MAX11615",
++            "in_voltage0_Name": "MGNT_P1V8_VOLT_V",
++            "in_voltage0_Scale": 1649.122
++        },
+         {
+             "Class": "fan",
+             "FFGainCoefficient": 1.0,
+-- 
+2.34.1
+
