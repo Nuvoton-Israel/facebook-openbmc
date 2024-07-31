@@ -1,0 +1,32 @@
+From c5b38fcd727707da3a334f25490f4bd651dcf9d0 Mon Sep 17 00:00:00 2001
+From: Tomer Maimon <tmaimon77@gmail.com>
+Date: Thu, 1 Jun 2023 14:29:16 +0300
+Subject: [PATCH 1/7] pinctrl: nuvoton: npcm8xx: clear polarity before set both
+ edge
+
+Clear polarity before setting both edges to ensure that the polarity is
+in the same state before configuring events for both edges
+
+This change is also contributing to torvalds upstream for reviewing.
+Lore Link: https://lore.kernel.org/all/20240711193749.2397471-2-tmaimon77@gmail.com/
+
+Signed-off-by: Tomer Maimon <tmaimon77@gmail.com>
+---
+ drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c b/drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c
+index da21f6a45888..29b018252eb7 100644
+--- a/drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c
++++ b/drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c
+@@ -246,6 +246,7 @@ static int npcmgpio_set_irq_type(struct irq_data *d, unsigned int type)
+ 		npcm_gpio_set(&bank->gc, bank->base + NPCM8XX_GP_N_POL, gpio);
+ 		break;
+ 	case IRQ_TYPE_EDGE_BOTH:
++		npcm_gpio_clr(&bank->gc, bank->base + NPCM8XX_GP_N_POL, gpio);
+ 		npcm_gpio_set(&bank->gc, bank->base + NPCM8XX_GP_N_EVBE, gpio);
+ 		break;
+ 	case IRQ_TYPE_LEVEL_LOW:
+-- 
+2.34.1
+
