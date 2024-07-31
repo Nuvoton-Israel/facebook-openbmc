@@ -1,0 +1,26 @@
+From b6fdac2d09a857c809362b268c8d08a7e532f0c7 Mon Sep 17 00:00:00 2001
+From: Joseph Liu <kwliu@nuvoton.com>
+Date: Wed, 26 Jun 2024 16:14:24 +0800
+Subject: [PATCH] adc: npcm: increase timeout to 500ms
+
+Signed-off-by: Joseph Liu <kwliu@nuvoton.com>
+---
+ drivers/iio/adc/npcm_adc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/iio/adc/npcm_adc.c b/drivers/iio/adc/npcm_adc.c
+index 3d9207c160eb..789615498c20 100644
+--- a/drivers/iio/adc/npcm_adc.c
++++ b/drivers/iio/adc/npcm_adc.c
+@@ -126,7 +126,7 @@ static int npcm_adc_read(struct npcm_adc *info, int *val, u8 channel)
+ 		  NPCM_ADCCON_ADC_CONV, info->regs + NPCM_ADCCON);
+ 
+ 	ret = wait_event_interruptible_timeout(info->wq, info->int_status,
+-					       msecs_to_jiffies(10));
++					       msecs_to_jiffies(500));
+ 	if (ret == 0) {
+ 		regtemp = ioread32(info->regs + NPCM_ADCCON);
+ 		if (regtemp & NPCM_ADCCON_ADC_CONV) {
+-- 
+2.34.1
+
