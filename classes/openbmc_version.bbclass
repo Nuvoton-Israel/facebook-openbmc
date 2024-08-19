@@ -40,5 +40,5 @@ def get_openbmc_version(d):
           version += '-dirty'
     return version
 
-OPENBMC_VERSION := "${@get_openbmc_version(d)}"
+OPENBMC_VERSION := "yosemite4n-v2024.34.e1"
 DISTRO_VERSION := "${OPENBMC_VERSION}"
