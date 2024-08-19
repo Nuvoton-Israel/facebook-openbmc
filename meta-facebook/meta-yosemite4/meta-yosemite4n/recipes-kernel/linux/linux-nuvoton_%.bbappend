@@ -58,3 +58,6 @@ SRC_URI:append = " file://1031-driver-watchdog-npcm-add-a-support-to-get-reset-c
 
 SRC_URI:append = " file://1032-adc-npcm-increase-timeout-to-500ms.patch"
 SRC_URI:append = " file://1033-i3c-expose-interface-for-doing-daa-request.patch"
+
+# TMP
+SRC_URI:append = " file://1111-dts-arm64-yv4n-ioe-compatible-dvt.patch"
