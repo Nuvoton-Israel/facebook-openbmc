@@ -67,3 +67,7 @@ SRC_URI:append = " file://1031-driver-watchdog-npcm-add-a-support-to-get-reset-c
 
 SRC_URI:append = " file://1032-adc-npcm-increase-timeout-to-500ms.patch"
 SRC_URI:append = " file://1033-i3c-expose-interface-for-doing-daa-request.patch"
+
+
+# NPCM8XX i2c patch test
+SRC_URI:append = " file://1111-driver-i2c-npcm7xx-do-not-return-0-if-i2c-recovery-o.patch"

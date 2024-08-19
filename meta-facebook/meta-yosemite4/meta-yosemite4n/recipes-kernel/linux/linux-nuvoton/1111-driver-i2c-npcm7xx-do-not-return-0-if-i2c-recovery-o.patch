@@ -1,0 +1,27 @@
+From f851617228144a84d1323b24c5d2702cb06b2bd4 Mon Sep 17 00:00:00 2001
+From: Joseph Liu <kwliu@nuvoton.com>
+Date: Mon, 19 Aug 2024 15:26:10 +0800
+Subject: [PATCH] driver: i2c: npcm7xx: do not return 0 if i2c recovery ok
+ Signed-off-by: Joseph Liu <kwliu@nuvoton.com>
+
+---
+ drivers/i2c/busses/i2c-npcm7xx.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/i2c/busses/i2c-npcm7xx.c b/drivers/i2c/busses/i2c-npcm7xx.c
+index 6e649dc6c..dc3802680 100644
+--- a/drivers/i2c/busses/i2c-npcm7xx.c
++++ b/drivers/i2c/busses/i2c-npcm7xx.c
+@@ -2268,7 +2268,8 @@ static int npcm_i2c_master_xfer(struct i2c_adapter *adap, struct i2c_msg *msgs,
+ 
+ 	/* if there was BER, check if need to recover the bus: */
+ 	if (bus->cmd_err == -EAGAIN)
+-		bus->cmd_err = i2c_recover_bus(adap);
++		if (i2c_recover_bus(adap) != 0)
++			bus->cmd_err = -ENOTRECOVERABLE;
+ 
+ 	/*
+ 	 * After any type of error, check if LAST bit is still set,
+-- 
+2.34.1
+
