@@ -1,0 +1,51 @@
+From 4147aeb868c0bbd3ada0157ee7193d0edf13c192 Mon Sep 17 00:00:00 2001
+From: Joseph Liu <kwliu@nuvoton.com>
+Date: Wed, 21 Aug 2024 11:46:34 +0800
+Subject: [PATCH] dts: arm64: yv4n: ioe compatible dvt
+
+Signed-off-by: Joseph Liu <kwliu@nuvoton.com>
+---
+ .../dts/nuvoton/nuvoton-npcm845-yosemite4.dts | 28 +++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-yosemite4.dts b/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-yosemite4.dts
+index 0bfb55a2f398..1d3b97e5b1c5 100644
+--- a/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-yosemite4.dts
++++ b/arch/arm64/boot/dts/nuvoton/nuvoton-npcm845-yosemite4.dts
+@@ -1412,6 +1412,34 @@ imux37: i2c@3 {
+ &i2c14 {
+ 	status = "okay";
+ 	clock-frequency = <100000>;
++
++	gpio@20 {
++		compatible = "nxp,pca9506";
++		reg = <0x20>;
++		gpio-controller;
++		#gpio-cells = <2>;
++	};
++
++	gpio@21 {
++		compatible = "nxp,pca9506";
++		reg = <0x21>;
++		gpio-controller;
++		#gpio-cells = <2>;
++	};
++
++	gpio@22 {
++		compatible = "nxp,pca9506";
++		reg = <0x22>;
++		gpio-controller;
++		#gpio-cells = <2>;
++	};
++
++	gpio@23 {
++		compatible = "nxp,pca9506";
++		reg = <0x23>;
++		gpio-controller;
++		#gpio-cells = <2>;
++	};
+ };
+ 
+ &i2c15 {
+-- 
+2.34.1

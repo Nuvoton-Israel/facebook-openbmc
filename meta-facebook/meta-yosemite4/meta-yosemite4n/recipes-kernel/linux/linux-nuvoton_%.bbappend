@@ -71,3 +71,6 @@ SRC_URI:append = " file://1033-i3c-expose-interface-for-doing-daa-request.patch"
 
 # NPCM8XX i2c patch test
 SRC_URI:append = " file://1111-driver-i2c-npcm7xx-do-not-return-0-if-i2c-recovery-o.patch"
+
+# TMP
+SRC_URI:append = " file://1111-dts-arm64-yv4n-ioe-compatible-dvt.patch"
