@@ -1,0 +1,39 @@
+From 3ddf6c5a9482a5ad7f3117a441826093a2e1a760 Mon Sep 17 00:00:00 2001
+From: Stanley Chu <yschu@nuvoton.com>
+Date: Fri, 12 Apr 2024 08:07:00 +0800
+Subject: [PATCH 3/7] pinctrl: nuvoton: npcm8xx: add pin 250 to DDR pins group
+
+Add pin 250 to DDR pins group on the Nuvoton NPCM8xx BMC SoC.
+
+This change is also contributing to torvalds upstream for reviewing.
+Lore Link: https://lore.kernel.org/all/20240711193749.2397471-4-tmaimon77@gmail.com/
+
+Signed-off-by: Tomer Maimon <tmaimon77@gmail.com>
+---
+ drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c b/drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c
+index 56d0781e7d1c..6416526a755e 100644
+--- a/drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c
++++ b/drivers/pinctrl/nuvoton/pinctrl-npcm8xx.c
+@@ -521,7 +521,7 @@ static const int rg2_pins[] = { 110, 111, 112, 113, 208, 209, 210, 211, 212,
+ static const int rg2mdio_pins[] = { 216, 217 };
+ 
+ static const int ddr_pins[] = { 110, 111, 112, 113, 208, 209, 210, 211, 212,
+-	213, 214, 215, 216, 217 };
++	213, 214, 215, 216, 217, 250 };
+ 
+ static const int iox1_pins[] = { 0, 1, 2, 3 };
+ static const int iox2_pins[] = { 4, 5, 6, 7 };
+@@ -1575,6 +1575,7 @@ static const struct npcm8xx_pincfg pincfg[] = {
+ 	NPCM8XX_PINCFG(245,	i3c2, MFSEL5, 21,	none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		SLEW),
+ 	NPCM8XX_PINCFG(246,	i3c3, MFSEL5, 23,	none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		SLEW),
+ 	NPCM8XX_PINCFG(247,	i3c3, MFSEL5, 23,	none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		SLEW),
++	NPCM8XX_PINCFG(250,	ddr, MFSEL3, 26,	none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		DSTR(8, 12) | SLEW),
+ 	NPCM8XX_PINCFG(251,	jm2, MFSEL5, 1,		none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		SLEW),
+ 	NPCM8XX_PINCFG(253,	none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		GPI), /* SDHC1 power */
+ 	NPCM8XX_PINCFG(254,	none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		none, NONE, 0,		GPI), /* SDHC2 power */
+-- 
+2.34.1
+
