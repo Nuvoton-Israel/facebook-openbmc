@@ -45,7 +45,6 @@ SRC_URI:append = " file://1024-i2c-npcm-Modify-timeout-evaluation-mechanism.patc
 SRC_URI:append = " file://1025-i2c-npcm-Modify-the-client-address-assignment.patch"
 SRC_URI:append = " file://1026-i2c-npcm7xx.c-Enable-slave-in-eob-interrupt.patch"
 SRC_URI:append = " file://1027-i2c-npcm-correct-the-read-write-operation-procedure.patch"
-SRC_URI:append = " file://1028-i2c-npcm-Return-EAGAIN-while-bus-is-busy.patch"
 
 # NPCM8XX Jtag Master driver
 SRC_URI:append = " file://1030-misc-npcm8xx-jtag-master-Add-NPCM845-JTAG-master-dri.patch"
@@ -57,5 +56,4 @@ SRC_URI:append = " file://1036-dt-bindings-i3c-Add-NPCM845-i3c-controller.patch"
 # NPCM8XX WDT driver
 SRC_URI:append = " file://1040-driver-watchdog-npcm-add-a-support-to-get-reset-casu.patch"
 
-SRC_URI:append = " file://1041-adc-npcm-increase-timeout-to-500ms.patch"
 SRC_URI:append = " file://1042-i3c-expose-interface-for-doing-daa-request.patch"
