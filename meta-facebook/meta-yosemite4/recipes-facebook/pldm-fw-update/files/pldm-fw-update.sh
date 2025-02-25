@@ -93,6 +93,7 @@ check_power_on() {
 	echo "Check Power : On"
 }
 
+# Simply booting from UART still requires an update to bring the BIC to a normal state.
 recovery_bic_by_uart() {
 	local slot=$1
 	local cpld_uart_routing=$2
@@ -525,8 +526,8 @@ check_if_no_retimer_sku() {
     return 0
 }
 
-restart_sd_bic_for_i3c_re-init () {
-	# Workaround: Restart all Sentinel dome BIC for i3c hub re-init
+sd_bic_do_i3c_re-init () {
+	# Workaround: Sentinel dome BIC do i3c hub re-init
 	mapfile -t eid_arr < <(echo "$mctp_tree" | cut -d "/" -f 9)
 	for EID in "${eid_arr[@]}"
 	do
@@ -563,7 +564,6 @@ handle_firmware_operations () {
 			check_power_on "$slot_id"
 			recovery_bic_by_uart "$slot_id" "0x01" "0x02" "$uart_image"
 			ret=$?
-			pldmtool raw -m "${slot_id}0" -d 0x80 0x02 0x39 0x1 0x1 0x1 0x1 0x1
 			;;
 		esac
 
@@ -645,13 +645,6 @@ handle_firmware_operations () {
 			echo "Failed to do 12V cycle"
 		fi
 		sleep 40
-	else
-		if [ "$bic_name" == "wf" ]; then
-			restart_sd_bic_for_i3c_re-init
-		elif [ "$bic_name" == "sd" ]; then
-			sleep 15
-			restart_sd_bic_for_i3c_re-init
-		fi
 	fi
 
 	if [ "$bic_name" == "sd_vr" ]; then
